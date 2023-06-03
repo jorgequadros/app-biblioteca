@@ -1,6 +1,6 @@
 package control;
 
-public class Usuarios {
+public class Pessoa {
 
 	private int id;
 	private String nome;
@@ -11,7 +11,7 @@ public class Usuarios {
 	private String telefone;
 	private String email;
 	
-	public Usuarios() {	}
+	public Pessoa() {	}
 
 	public int getId() {
 		return id;
