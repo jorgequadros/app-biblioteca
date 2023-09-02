@@ -1,6 +1,5 @@
 package swing.model;
 
-import java.io.Console;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,13 +10,11 @@ import java.util.Properties;
 
 import javax.management.RuntimeErrorException;
 
-import com.mysql.fabric.xmlrpc.Client;
-
 public class ConexaoDB {
 
 	private static ConexaoDB instance = null;
 	private Connection connection = null;
-	private int clients = 0;
+	
 		
 	private ConexaoDB() {
 		try {
@@ -48,7 +45,7 @@ public class ConexaoDB {
 	public Connection getConnection() {
 		try {
 			if(connection==null) {throw new RuntimeErrorException(null, "connection ==null!!");}
-			clients++;
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

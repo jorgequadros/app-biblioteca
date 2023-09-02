@@ -1,16 +1,15 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.Color;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import model.CategoriasDAO;
 
 public class viewCategorias extends JInternalFrame {
 
@@ -20,7 +19,6 @@ public class viewCategorias extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtDescricao;
 	private JTextField txtID;
-	private JTable JTabela;
 
 	/**
 	 * Launch the application.
@@ -45,7 +43,7 @@ public class viewCategorias extends JInternalFrame {
 		setRootPaneCheckingEnabled(false);
 		setForeground(Color.CYAN);
 		setClosable(true);
-		setBounds(100, 100, 416, 313);
+		setBounds(100, 100, 299, 211);
 		getContentPane().setLayout(null);
 		
 		JLabel lbDescricao = new JLabel("Descrição: ");
@@ -53,7 +51,7 @@ public class viewCategorias extends JInternalFrame {
 		getContentPane().add(lbDescricao);
 		
 		txtDescricao = new JTextField();
-		txtDescricao.setBounds(41, 24, 235, 20);
+		txtDescricao.setBounds(41, 24, 215, 20);
 		getContentPane().add(txtDescricao);
 		txtDescricao.setColumns(10);
 		
@@ -63,46 +61,33 @@ public class viewCategorias extends JInternalFrame {
 		
 		txtID = new JTextField();
 		txtID.setBounds(10, 24, 27, 20);
+		txtID.setEnabled(false);
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
 		
-		JButton btAlterar = new JButton("Alterar");
-		btAlterar.setBounds(301, 23, 89, 23);
-		getContentPane().add(btAlterar);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 66, 246, 70);
+		getContentPane().add(scrollPane);
+				
+		JTextArea taDescricao = new JTextArea();
+		scrollPane.setViewportView(taDescricao);
+		
+		JLabel lblObservacao = new JLabel("Observação");
+		lblObservacao.setBounds(10, 51, 71, 14);
+		getContentPane().add(lblObservacao);
 		
 		JButton btCancelar = new JButton("Cancelar");
-		btCancelar.setBounds(301, 52, 89, 23);
+		btCancelar.setBounds(10, 149, 89, 23);
 		getContentPane().add(btCancelar);
 		
 		JButton btIncluir = new JButton("Incluir");
-		btIncluir.setBounds(301, 107, 89, 23);
+		btIncluir.addActionListener(e -> {
+			CategoriasDAO c = new CategoriasDAO();
+			c.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", txtDescricao.getText(),
+					taDescricao  .getText());
+		});
+		btIncluir.setBounds(109, 149, 89, 23);
 		getContentPane().add(btIncluir);
 		
-		JButton btExcluir = new JButton("Excluir");
-		btExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btExcluir.setBounds(301, 79, 89, 23);
-		getContentPane().add(btExcluir);
-		
-		JButton btOk = new JButton("Ok");
-		btOk.setBounds(301, 136, 89, 23);
-		getContentPane().add(btOk);
-		
-		JScrollPane JSPaneTabela = new JScrollPane();
-		JSPaneTabela.setBounds(10, 55, 265, 200);
-		getContentPane().add(JSPaneTabela);
-		
-		JTabela = new JTable();
-		JTabela.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "Descri\u00E7\u00E3o"
-			}
-		));
-		JSPaneTabela.setViewportView(JTabela);
-
 	}
 }

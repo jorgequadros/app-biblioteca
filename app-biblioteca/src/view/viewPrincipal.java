@@ -81,6 +81,27 @@ public class viewPrincipal {
 		JMenuItem mnuItemCadUsuario = new JMenuItem("Usuários");
 		mnuCadastro.add(mnuItemCadUsuario);
 		
+		JMenu MnuConsulta = new JMenu("Consulta");
+		menuBar.add(MnuConsulta);
+		
+		JMenuItem ItemMnuConsCategoria = new JMenuItem("Categorias");
+		ItemMnuConsCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							viewConsCategorias frame = new viewConsCategorias();
+							frame.setVisible(true);
+							desktop.add(frame);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		MnuConsulta.add(ItemMnuConsCategoria);
+		
 		JMenu mnuMovimentacao = new JMenu("Movimentação");
 		menuBar.add(mnuMovimentacao);
 		
