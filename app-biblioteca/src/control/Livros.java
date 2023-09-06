@@ -7,7 +7,7 @@ public class Livros {
 	private String assunto;
 	private String dtAquisicao;
 	private String autor;
-	private int id_categoria;
+	private Categorias categorias;
 	
 	public Livros() {
 		super();
@@ -54,13 +54,12 @@ public class Livros {
 		this.autor = autor;
 	}
 
-	public int getId_categoria() {
-		return id_categoria;
+	public Categorias getCategorias() {
+		return categorias;
 	}
 
-	public void setId_categoria(int id_categoria) {
-		this.id_categoria = id_categoria;
+	public void setCategorias(Categorias categorias) {
+		this.categorias = categorias;
 	}
-	
 	
 }

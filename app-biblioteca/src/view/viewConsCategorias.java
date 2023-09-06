@@ -2,8 +2,8 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.SQLException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -11,17 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import control.Categorias;
 import model.CategoriasDAO;
-import swing.model.ProdutoM;
-import swing.model.ProdutosMDAO;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class viewConsCategorias extends JInternalFrame {
@@ -46,44 +42,71 @@ public class viewConsCategorias extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public viewConsCategorias() {
+		
+		setClosable(true);
 		setBounds(100, 100, 386, 354);
 		getContentPane().setLayout(null);
 
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 11, 353, 151);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JLabel lblDescricao = new JLabel("Descrição");
-		lblDescricao.setBounds(10, 41, 46, 14);
+		lblDescricao.setBounds(64, 11, 59, 14);
 		panel.add(lblDescricao);
 
 		tfDescricao = new JTextField();
-		tfDescricao.setBounds(62, 38, 187, 20);
+		tfDescricao.setBounds(62, 27, 187, 20);
 		panel.add(tfDescricao);
 		tfDescricao.setColumns(10);
 
 		JLabel btnObs = new JLabel("Obs");
-		btnObs.setBounds(10, 83, 46, 14);
+		btnObs.setBounds(10, 57, 46, 14);
 		panel.add(btnObs);
-
-		JScrollPane spnObs = new JScrollPane();
-		spnObs.setBounds(62, 83, 189, 57);
-		panel.add(spnObs);
-
+		
+		JScrollPane spTaObs = new JScrollPane();
+		spTaObs.setBounds(10, 73, 241, 69);
+		panel.add(spTaObs);
+		
 		JTextArea taObs = new JTextArea();
-		spnObs.setViewportView(taObs);
+		spTaObs.setViewportView(taObs);
 
 		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(259, 7, 89, 23);
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(tfDescricao.getText()!="") {
+					pesquisaPorCampo(tfDescricao.getText());
+				}else {
+					pesquisaTodos();
+				}
+			}
+		});
+		btnPesquisar.setBounds(261, 11, 89, 23);
 		panel.add(btnPesquisar);
 
 		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.setBounds(259, 32, 89, 23);
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CategoriasDAO c =new CategoriasDAO();
+				c.alterar("update categorias "
+						+ "set descricao=?, "
+						+ "obs=?"
+						+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
+			}
+		});
+		btnAlterar.setBounds(261, 50, 89, 23);
 		panel.add(btnAlterar);
 
 		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(259, 59, 89, 23);
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CategoriasDAO c = new CategoriasDAO();
+				c.incluir("delete from categorias where id=?", tfID.getText());
+			}
+		});
+		btnExcluir.setBounds(261, 85, 89, 23);
 		panel.add(btnExcluir);
 
 		JButton btnIncluir = new JButton("Incluir");
@@ -94,22 +117,20 @@ public class viewConsCategorias extends JInternalFrame {
 						taObs.getText());
 			}
 		});
-		btnIncluir.setBounds(259, 85, 89, 23);
+		btnIncluir.setBounds(261, 119, 89, 23);
 		panel.add(btnIncluir);
-
-		JButton btnSair = new JButton("Sair");
-		btnSair.setBounds(259, 119, 89, 23);
-		panel.add(btnSair);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(10, 11, 46, 14);
 		panel.add(lblId);
 		
 		tfID = new JTextField();
-		tfID.setBounds(61, 8, 86, 20);
+		tfID.setEnabled(false);
+		tfID.setBounds(10, 27, 46, 20);
+		
 		panel.add(tfID);
 		tfID.setColumns(10);
-
+					
 		JScrollPane spnTableConsulta = new JScrollPane();
 		spnTableConsulta.setBounds(20, 173, 340, 126);
 		getContentPane().add(spnTableConsulta);
@@ -118,32 +139,56 @@ public class viewConsCategorias extends JInternalFrame {
 		tbconsulta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				tfDescricao.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 1).toString());
-				taObs.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString());
+				try {
+					tfID.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 0).toString());
+					tfDescricao.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 1).toString());
+					
+					if(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString()==null) {
+						taObs.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString());
+					}else{
+						taObs.setText("");
+						
+					};
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					new Throwable(e1);
+				}
 			}
 		});
-		tbconsulta.setModel(
-				new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Descri\u00E7\u00E3o", "Obs" }));
+		tbconsulta.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Descri\u00E7\u00E3o", "Obs" }));
 		spnTableConsulta.setViewportView(tbconsulta);
 		
 		DefaultTableModel modelo = (DefaultTableModel) tbconsulta.getModel();
 		tbconsulta.setRowSorter(new TableRowSorter<DefaultTableModel>(modelo));
 		
-		try {
-			lerTabela();
-		} catch (SQLException | IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		//pesquisaTodos();
 
 	}
 	
-	public void lerTabela() throws IOException, SQLException {
+	
+	public void pesquisaTodos() {
+		// TODO Auto-generated method stub
 		DefaultTableModel modelo = (DefaultTableModel) tbconsulta.getModel();
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
 		
-		for(Categorias c: cdao.PesquisaTodos("select * from categorias")) {
+		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
+			modelo.addRow(new Object[] {
+					c.getId(),
+					c.getDescricao(),
+					c.getObs()
+					});
+			
+		}
+	}
+
+	public void pesquisaPorCampo(String consulta) {
+		// TODO Auto-generated method stub
+		DefaultTableModel modelo = (DefaultTableModel) tbconsulta.getModel();
+		modelo.setNumRows(0);
+		CategoriasDAO cdao = new CategoriasDAO();
+		
+		for(Categorias c: cdao.pesquisaPorCampo("select * from categorias where descricao like '"+consulta+"%'")) {
 			modelo.addRow(new Object[] {
 					c.getId(),
 					c.getDescricao(),

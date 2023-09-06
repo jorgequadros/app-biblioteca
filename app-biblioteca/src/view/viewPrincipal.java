@@ -60,17 +60,7 @@ public class viewPrincipal {
 		JMenuItem mnuItemCadCategorias = new JMenuItem("Categorias");
 		mnuItemCadCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							viewCategorias frame = new viewCategorias();
-							frame.setVisible(true);
-							desktop.add(frame);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				
 			}
 		});
 		mnuCadastro.add(mnuItemCadCategorias);
@@ -101,6 +91,24 @@ public class viewPrincipal {
 			}
 		});
 		MnuConsulta.add(ItemMnuConsCategoria);
+		
+		JMenuItem ItemMnuLivros = new JMenuItem("Livros");
+		ItemMnuLivros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							ViewConsLivros frame = new ViewConsLivros();
+							frame.setVisible(true);
+							desktop.add(frame);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		MnuConsulta.add(ItemMnuLivros);
 		
 		JMenu mnuMovimentacao = new JMenu("Movimentação");
 		menuBar.add(mnuMovimentacao);

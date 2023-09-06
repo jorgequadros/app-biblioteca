@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import control.Categorias;
-
 public abstract class DAO {
 
 	private Connection conexao;
@@ -51,9 +49,9 @@ public abstract class DAO {
 		}
 	}
 	
-	public abstract int Pesquisar(String sql, Object...atributos);
-	public abstract int Alterar(String sql, Object...atributos);
-	public abstract int Excluir(String sql, Object...atributos);
+	public abstract List<?> pesquisaPorCampo(String sql);
+	public abstract int alterar(String sql, Object...atributos);
+	public abstract int excluir(String sql, Object...atributos);
 	public abstract int incluir(String sql, Object...atributos);
-	public abstract List<Categorias> PesquisaTodos(String sql);
+	public abstract List<?> pesquisaTodos(String sql);
 }
