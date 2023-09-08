@@ -3,6 +3,8 @@ package control;
 public class Usuario extends Pessoa{
 	private String usuario;
 	private String senha;
+	@SuppressWarnings("unused")
+	private enum TipoUsuario {ADMINISTRADOR, OPERACIONAL};
 	
 	public String getUsuario() {
 		return usuario;

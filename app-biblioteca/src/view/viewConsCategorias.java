@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,11 +43,10 @@ public class viewConsCategorias extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public viewConsCategorias() {
-		
+		setIconifiable(true);
 		setClosable(true);
-		setBounds(100, 100, 386, 354);
+		setBounds(100, 100, 740, 210);
 		getContentPane().setLayout(null);
-
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 11, 353, 151);
@@ -89,11 +89,19 @@ public class viewConsCategorias extends JInternalFrame {
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CategoriasDAO c =new CategoriasDAO();
-				c.alterar("update categorias "
-						+ "set descricao=?, "
-						+ "obs=?"
-						+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
+				if(tfID.getText().length()==0) {
+					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
+				}else if(tfDescricao.getText().length()==0){
+					JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
+				}else if(taObs.getText().length()==0) {
+					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
+				}else {
+					CategoriasDAO c =new CategoriasDAO();
+					c.alterar("update categorias "
+							+ "set descricao=?, "
+							+ "obs=?"
+							+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
+				}
 			}
 		});
 		btnAlterar.setBounds(261, 50, 89, 23);
@@ -102,8 +110,16 @@ public class viewConsCategorias extends JInternalFrame {
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CategoriasDAO c = new CategoriasDAO();
-				c.incluir("delete from categorias where id=?", tfID.getText());
+				if(tfID.getText().length()==0) {
+					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
+				}else if(tfDescricao.getText().length()==0){
+					JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
+				}else if(taObs.getText().length()==0) {
+					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
+				}else {
+					CategoriasDAO c =new CategoriasDAO();
+					c.excluir("delete from categorias where id=?", tfID.getText());
+				}
 			}
 		});
 		btnExcluir.setBounds(261, 85, 89, 23);
@@ -112,9 +128,17 @@ public class viewConsCategorias extends JInternalFrame {
 		JButton btnIncluir = new JButton("Incluir");
 		btnIncluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CategoriasDAO c = new CategoriasDAO();
-				c.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", tfDescricao.getText(),
-						taObs.getText());
+				if(tfID.getText().length()==0) {
+					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
+				}else if(tfDescricao.getText().length()==0){
+					JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
+				}else if(taObs.getText().length()==0) {
+					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
+				}else {
+					CategoriasDAO c = new CategoriasDAO();
+					c.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", tfDescricao.getText(),
+							taObs.getText());
+				}
 			}
 		});
 		btnIncluir.setBounds(261, 119, 89, 23);
@@ -132,7 +156,7 @@ public class viewConsCategorias extends JInternalFrame {
 		tfID.setColumns(10);
 					
 		JScrollPane spnTableConsulta = new JScrollPane();
-		spnTableConsulta.setBounds(20, 173, 340, 126);
+		spnTableConsulta.setBounds(373, 11, 340, 151);
 		getContentPane().add(spnTableConsulta);
 
 		tbconsulta = new JTable();
@@ -143,7 +167,7 @@ public class viewConsCategorias extends JInternalFrame {
 					tfID.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 0).toString());
 					tfDescricao.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 1).toString());
 					
-					if(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString()==null) {
+					if(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString().length()>0) {
 						taObs.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString());
 					}else{
 						taObs.setText("");

@@ -42,16 +42,16 @@ public class viewPrincipal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500);
+		frame.setBounds(100, 100, 1000, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JDesktopPane desktop = new JDesktopPane();
-		desktop.setBounds(0, 0, 784, 461);
+		desktop.setBounds(0, 0, 1000, 461);
 		frame.getContentPane().add(desktop);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 784, 22);
+		menuBar.setBounds(0, 0, 990, 22);
 		desktop.add(menuBar);
 		
 		JMenu mnuCadastro = new JMenu("Cadastro");
