@@ -4,20 +4,30 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import java.awt.Component;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import control.Categorias;
+import model.CategoriasDAO;
+
 @SuppressWarnings("serial")
 public class ViewConsLivros extends JInternalFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTable table;
+	private JTextField tfId;
+	private JTextField tfTitulo;
+	private JTextField tfAutor;
+	private JComboBox cboCategorias;
+	private JTable consulta;
 
 	/**
 	 * Launch the application.
@@ -44,93 +54,126 @@ public class ViewConsLivros extends JInternalFrame {
 		getContentPane().add(pnFormulario);
 		pnFormulario.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("ID");
-		lblNewLabel.setBounds(10, 11, 46, 14);
-		pnFormulario.add(lblNewLabel);
+		JLabel lblId = new JLabel("ID");
+		lblId.setBounds(10, 11, 46, 14);
+		pnFormulario.add(lblId);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 26, 33, 20);
-		pnFormulario.add(textField);
-		textField.setColumns(10);
+		tfId = new JTextField();
+		tfId.setBounds(10, 26, 33, 20);
+		pnFormulario.add(tfId);
+		tfId.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Titulo");
-		lblNewLabel_1.setBounds(47, 11, 46, 14);
-		pnFormulario.add(lblNewLabel_1);
+		JLabel lblTitulo = new JLabel("Titulo");
+		lblTitulo.setBounds(47, 11, 46, 14);
+		pnFormulario.add(lblTitulo);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(46, 26, 173, 20);
-		pnFormulario.add(textField_1);
-		textField_1.setColumns(10);
+		tfTitulo = new JTextField();
+		tfTitulo.setBounds(46, 26, 173, 20);
+		pnFormulario.add(tfTitulo);
+		tfTitulo.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Autor");
-		lblNewLabel_2.setBounds(10, 52, 46, 14);
-		pnFormulario.add(lblNewLabel_2);
+		JLabel lblAutor = new JLabel("Autor");
+		lblAutor.setBounds(10, 52, 46, 14);
+		pnFormulario.add(lblAutor);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(10, 71, 209, 20);
-		pnFormulario.add(textField_2);
-		textField_2.setColumns(10);
+		tfAutor = new JTextField();
+		tfAutor.setBounds(10, 71, 209, 20);
+		pnFormulario.add(tfAutor);
+		tfAutor.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("Data Aquisição");
-		lblNewLabel_3.setBounds(10, 102, 83, 14);
-		pnFormulario.add(lblNewLabel_3);
+		JLabel lblDtAquisicao = new JLabel("Data Aquisição");
+		lblDtAquisicao.setBounds(10, 102, 83, 14);
+		pnFormulario.add(lblDtAquisicao);
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setBounds(10, 116, 83, 20);
-		pnFormulario.add(formattedTextField);
+		JFormattedTextField tfDataAquisicao = new JFormattedTextField();
+		tfDataAquisicao.setBounds(10, 116, 83, 20);
+		pnFormulario.add(tfDataAquisicao);
 		
-		JLabel lblNewLabel_4 = new JLabel("Categorias");
-		lblNewLabel_4.setBounds(103, 102, 75, 14);
-		pnFormulario.add(lblNewLabel_4);
+		JLabel lblCategoria = new JLabel("Categorias");
+		lblCategoria.setBounds(103, 102, 75, 14);
+		pnFormulario.add(lblCategoria);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(103, 115, 116, 22);
-		pnFormulario.add(comboBox);
+		cboCategorias = new JComboBox<Categorias>();
+		cboCategorias.setBounds(103, 115, 116, 22);
+		cboCategorias.addAncestorListener(new AncestorListener() {
+			
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				carregaJCombo();
+				
+			}
+		});
+		pnFormulario.add(cboCategorias);
 		
-		JLabel lblNewLabel_5 = new JLabel("Assunto");
-		lblNewLabel_5.setBounds(10, 147, 46, 14);
-		pnFormulario.add(lblNewLabel_5);
+		JLabel lblAssunto = new JLabel("Assunto");
+		lblAssunto.setBounds(10, 147, 46, 14);
+		pnFormulario.add(lblAssunto);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 161, 209, 62);
-		pnFormulario.add(scrollPane);
+		JScrollPane spTaAssunto = new JScrollPane();
+		spTaAssunto.setBounds(10, 161, 209, 62);
+		pnFormulario.add(spTaAssunto);
 		
-		JTextArea textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
+		JTextArea taAssunto = new JTextArea();
+		spTaAssunto.setViewportView(taAssunto);
 		
-		JButton btnNewButton = new JButton("Pesquisar");
-		btnNewButton.setBounds(229, 26, 89, 23);
-		pnFormulario.add(btnNewButton);
+		JButton btnPesquisa = new JButton("Pesquisar");
+		btnPesquisa.setBounds(229, 26, 89, 23);
+		pnFormulario.add(btnPesquisa);
 		
-		JButton btnNewButton_1 = new JButton("Alterar");
-		btnNewButton_1.setBounds(229, 53, 89, 23);
-		pnFormulario.add(btnNewButton_1);
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setBounds(229, 53, 89, 23);
+		pnFormulario.add(btnAlterar);
 		
-		JButton btnNewButton_2 = new JButton("Excluir");
-		btnNewButton_2.setBounds(229, 87, 89, 23);
-		pnFormulario.add(btnNewButton_2);
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(229, 87, 89, 23);
+		pnFormulario.add(btnExcluir);
 		
-		JButton btnNewButton_3 = new JButton("Incluir");
-		btnNewButton_3.setBounds(229, 116, 89, 23);
-		pnFormulario.add(btnNewButton_3);
+		JButton btnIncluir = new JButton("Incluir");
+		btnIncluir.setBounds(229, 116, 89, 23);
+		pnFormulario.add(btnIncluir);
 		
-		JButton btnNewButton_4 = new JButton("Cancelar");
-		btnNewButton_4.setBounds(229, 144, 89, 23);
-		pnFormulario.add(btnNewButton_4);
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(229, 144, 89, 23);
+		pnFormulario.add(btnCancelar);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(347, 11, 525, 231);
-		getContentPane().add(scrollPane_1);
+		JScrollPane spTbConsulta = new JScrollPane();
+		spTbConsulta.setBounds(347, 11, 525, 231);
+		getContentPane().add(spTbConsulta);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		consulta = new JTable();
+		consulta.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"ID", "Titulo", "Autor", "Categoria", "Assunto", "Data Compra"
 			}
 		));
-		scrollPane_1.setViewportView(table);
+		spTbConsulta.setViewportView(consulta);
 
+	}
+	
+	private void carregaJCombo() {
+		CategoriasDAO cdao = new CategoriasDAO();
+		List<Categorias> categorias = cdao.pesquisaTodos("select * from categorias");
+		
+		cboCategorias.removeAll();
+		
+		for(Categorias c: categorias) {
+			cboCategorias.addItem(c);
+		}
+		
 	}
 }

@@ -76,7 +76,7 @@ public class viewConsCategorias extends JInternalFrame {
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tfDescricao.getText()!="") {
+				if(tfDescricao.getText().length()>0) {
 					pesquisaPorCampo(tfDescricao.getText());
 				}else {
 					pesquisaTodos();
@@ -91,19 +91,22 @@ public class viewConsCategorias extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(tfID.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
-				}else if(tfDescricao.getText().length()==0){
-					JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
-				}else if(taObs.getText().length()==0) {
-					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
-				}else {
-					CategoriasDAO c =new CategoriasDAO();
-					c.alterar("update categorias "
-							+ "set descricao=?, "
-							+ "obs=?"
-							+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
-				}
+					if(tfDescricao.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
+						if(taObs.getText().length()==0) {
+							JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
+						}else {
+							CategoriasDAO c =new CategoriasDAO();
+							c.alterar("update categorias "
+									+ "set descricao=?, "
+									+ "obs=?"
+									+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
+						}
+					}
+				} 
 			}
 		});
+		
 		btnAlterar.setBounds(261, 50, 89, 23);
 		panel.add(btnAlterar);
 
