@@ -49,9 +49,9 @@ public abstract class DAO {
 		}
 	}
 	
-	public abstract List<?> pesquisaPorCampo(String sql);
+	public abstract List<?> pesquisa(String sql);
 	public abstract int alterar(String sql, Object...atributos);
 	public abstract int excluir(String sql, Object...atributos);
 	public abstract int incluir(String sql, Object...atributos);
-	public abstract List<?> pesquisaTodos(String sql);
+	
 }

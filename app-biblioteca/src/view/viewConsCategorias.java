@@ -18,12 +18,14 @@ import javax.swing.table.TableRowSorter;
 
 import control.Categorias;
 import model.CategoriasDAO;
+import model.IntJanelas;
+
 import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
-public class viewConsCategorias extends JInternalFrame {
+public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 	private JTextField tfDescricao;
-	private JTable tbconsulta;
+	private JTable tbConsulta;
 	private JTextField tfID;
 
 	/**
@@ -131,16 +133,16 @@ public class viewConsCategorias extends JInternalFrame {
 		JButton btnIncluir = new JButton("Incluir");
 		btnIncluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tfID.getText().length()==0) {
-					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
-				}else if(tfDescricao.getText().length()==0){
+				if(tfDescricao.getText().length()==0){
 					JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
+					
 				}else if(taObs.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 				}else {
-					CategoriasDAO c = new CategoriasDAO();
-					c.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", tfDescricao.getText(),
+					CategoriasDAO cdao = new CategoriasDAO();
+					cdao.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", tfDescricao.getText(),
 							taObs.getText());
+					JOptionPane.showMessageDialog(null, "Incluido com sucesso!!");
 				}
 			}
 		});
@@ -162,16 +164,16 @@ public class viewConsCategorias extends JInternalFrame {
 		spnTableConsulta.setBounds(373, 11, 340, 151);
 		getContentPane().add(spnTableConsulta);
 
-		tbconsulta = new JTable();
-		tbconsulta.addMouseListener(new MouseAdapter() {
+		tbConsulta = new JTable();
+		tbConsulta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					tfID.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 0).toString());
-					tfDescricao.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 1).toString());
+					tfID.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
+					tfDescricao.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString());
 					
-					if(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString().length()>0) {
-						taObs.setText(tbconsulta.getValueAt(tbconsulta.getSelectedRow(), 2).toString());
+					if(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 2).toString().length()>0) {
+						taObs.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 2).toString());
 					}else{
 						taObs.setText("");
 						
@@ -182,24 +184,23 @@ public class viewConsCategorias extends JInternalFrame {
 				}
 			}
 		});
-		tbconsulta.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Descri\u00E7\u00E3o", "Obs" }));
-		spnTableConsulta.setViewportView(tbconsulta);
+		tbConsulta.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Descri\u00E7\u00E3o", "Obs" }));
+		spnTableConsulta.setViewportView(tbConsulta);
 		
-		DefaultTableModel modelo = (DefaultTableModel) tbconsulta.getModel();
-		tbconsulta.setRowSorter(new TableRowSorter<DefaultTableModel>(modelo));
+		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
+		tbConsulta.setRowSorter(new TableRowSorter<DefaultTableModel>(modelo));
 		
 		//pesquisaTodos();
 
 	}
-	
-	
+		
 	public void pesquisaTodos() {
 		// TODO Auto-generated method stub
-		DefaultTableModel modelo = (DefaultTableModel) tbconsulta.getModel();
+		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
 		
-		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
+		for(Categorias c: cdao.pesquisa("select * from categorias")) {
 			modelo.addRow(new Object[] {
 					c.getId(),
 					c.getDescricao(),
@@ -211,11 +212,11 @@ public class viewConsCategorias extends JInternalFrame {
 
 	public void pesquisaPorCampo(String consulta) {
 		// TODO Auto-generated method stub
-		DefaultTableModel modelo = (DefaultTableModel) tbconsulta.getModel();
+		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
 		
-		for(Categorias c: cdao.pesquisaPorCampo("select * from categorias where descricao like '"+consulta+"%'")) {
+		for(Categorias c: cdao.pesquisa("select * from categorias where descricao like '"+consulta+"%'")) {
 			modelo.addRow(new Object[] {
 					c.getId(),
 					c.getDescricao(),

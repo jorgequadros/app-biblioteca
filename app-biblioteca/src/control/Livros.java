@@ -7,12 +7,26 @@ public class Livros {
 	private String assunto;
 	private String dtAquisicao;
 	private String autor;
-	private Categorias categorias;
+	private int id_categoria;
 	
-	public Livros() {
-		super();
+	public Livros(int id, String titulo, String assunto, String autor, int id_categoria, String dtAquisicao2) {
 		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.titulo =titulo;
+		this.assunto=assunto;
+		this.dtAquisicao=dtAquisicao2;
+		this.autor= autor;
+		this.id_categoria=id_categoria;
 	}
+
+	public int getId_categoria() {
+		return id_categoria;
+	}
+
+	public void setId_categoria(int id_categoria) {
+		this.id_categoria = id_categoria;
+	}
+
 
 	public int getId() {
 		return id;
@@ -54,12 +68,4 @@ public class Livros {
 		this.autor = autor;
 	}
 
-	public Categorias getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(Categorias categorias) {
-		this.categorias = categorias;
-	}
-	
 }

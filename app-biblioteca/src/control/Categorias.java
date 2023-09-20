@@ -41,4 +41,9 @@ public class Categorias {
 		this.descricao = descricao;
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.getDescricao();
+	}
 }

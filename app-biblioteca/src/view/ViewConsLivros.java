@@ -1,33 +1,37 @@
 package view;
 
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.JFormattedTextField;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import control.Categorias;
+import control.Livros;
 import model.CategoriasDAO;
+import model.IntJanelas;
+import model.LivrosDAO;
 
 @SuppressWarnings("serial")
-public class ViewConsLivros extends JInternalFrame {
+public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 	private JTextField tfId;
 	private JTextField tfTitulo;
 	private JTextField tfAutor;
-	private JComboBox cboCategorias;
-	private JTable consulta;
+	private JFormattedTextField tfDataAquisicao;
+	private JComboBox<Categorias> cboCategorias;
+	private JTable tbConsulta;
 
 	/**
 	 * Launch the application.
@@ -43,8 +47,8 @@ public class ViewConsLivros extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ViewConsLivros() {
-		setIconifiable(true);
 		//super("Consulta Livros!",true,true,false,true);//(redimensionar, fechar, maximizar, iconificar)
+		setIconifiable(true);
 		setClosable(true);
 		setBounds(100, 100, 910, 300);
 		getContentPane().setLayout(null);
@@ -60,8 +64,9 @@ public class ViewConsLivros extends JInternalFrame {
 		
 		tfId = new JTextField();
 		tfId.setBounds(10, 26, 33, 20);
-		pnFormulario.add(tfId);
 		tfId.setColumns(10);
+		tfId.setEnabled(false);
+		pnFormulario.add(tfId);
 		
 		JLabel lblTitulo = new JLabel("Titulo");
 		lblTitulo.setBounds(47, 11, 46, 14);
@@ -85,7 +90,12 @@ public class ViewConsLivros extends JInternalFrame {
 		lblDtAquisicao.setBounds(10, 102, 83, 14);
 		pnFormulario.add(lblDtAquisicao);
 		
-		JFormattedTextField tfDataAquisicao = new JFormattedTextField();
+		try {
+			tfDataAquisicao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		tfDataAquisicao.setBounds(10, 116, 83, 20);
 		pnFormulario.add(tfDataAquisicao);
 		
@@ -95,27 +105,15 @@ public class ViewConsLivros extends JInternalFrame {
 		
 		cboCategorias = new JComboBox<Categorias>();
 		cboCategorias.setBounds(103, 115, 116, 22);
-		cboCategorias.addAncestorListener(new AncestorListener() {
-			
-			@Override
-			public void ancestorRemoved(AncestorEvent event) {
-				// TODO Auto-generated method stub
+		
+		CategoriasDAO cdao = new CategoriasDAO();
+		List<Categorias> lista = cdao.pesquisa("select * from categorias");
+		cboCategorias.removeAll();
+		
+		for(Categorias c:lista) {
+			cboCategorias.addItem(c);
+		}
 				
-			}
-			
-			@Override
-			public void ancestorMoved(AncestorEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void ancestorAdded(AncestorEvent event) {
-				// TODO Auto-generated method stub
-				carregaJCombo();
-				
-			}
-		});
 		pnFormulario.add(cboCategorias);
 		
 		JLabel lblAssunto = new JLabel("Assunto");
@@ -131,6 +129,21 @@ public class ViewConsLivros extends JInternalFrame {
 		
 		JButton btnPesquisa = new JButton("Pesquisar");
 		btnPesquisa.setBounds(229, 26, 89, 23);
+		btnPesquisa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+					if(tfTitulo.getText().length()>0) {
+						pesquisaPorCampo(tfTitulo.getText());
+					}else {
+						pesquisaTodos();
+					}
+				}
+				
+			
+		});
 		pnFormulario.add(btnPesquisa);
 		
 		JButton btnAlterar = new JButton("Alterar");
@@ -143,6 +156,18 @@ public class ViewConsLivros extends JInternalFrame {
 		
 		JButton btnIncluir = new JButton("Incluir");
 		btnIncluir.setBounds(229, 116, 89, 23);
+		btnIncluir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				Categorias c = (Categorias) cboCategorias.getSelectedItem();
+								
+				LivrosDAO ldao = new LivrosDAO();
+				ldao.incluir("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", tfTitulo.getText(), c.getId(), tfAutor.getText(), convertDataBD(tfDataAquisicao.getText()), taAssunto.getText());
+			}
+		});
 		pnFormulario.add(btnIncluir);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -153,27 +178,63 @@ public class ViewConsLivros extends JInternalFrame {
 		spTbConsulta.setBounds(347, 11, 525, 231);
 		getContentPane().add(spTbConsulta);
 		
-		consulta = new JTable();
-		consulta.setModel(new DefaultTableModel(
+		tbConsulta = new JTable();
+		tbConsulta.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"ID", "Titulo", "Autor", "Categoria", "Assunto", "Data Compra"
 			}
 		));
-		spTbConsulta.setViewportView(consulta);
+		spTbConsulta.setViewportView(tbConsulta);
 
 	}
 	
-	private void carregaJCombo() {
-		CategoriasDAO cdao = new CategoriasDAO();
-		List<Categorias> categorias = cdao.pesquisaTodos("select * from categorias");
 		
-		cboCategorias.removeAll();
-		
-		for(Categorias c: categorias) {
-			cboCategorias.addItem(c);
-		}
-		
+	public String convertDataBD(String data) {
+		String dia =data.substring(0, 2);
+		String mes =data.substring(3, 5);
+		String ano =data.substring(6, 10);
+		String convertData = ano+"-"+mes+"-"+dia;
+		return convertData;
 	}
+	
+	
+	public void pesquisaTodos() {
+		// TODO Auto-generated method stub
+		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
+		modelo.setNumRows(0);
+		LivrosDAO ldao = new LivrosDAO();
+		
+		for(Livros l: ldao.pesquisa("select * from livros")) {
+				modelo.addRow(new Object[] {
+						l.getId(),
+						l.getAssunto(),
+						l.getAutor(),
+						l.getId_categoria(),
+						l.getTitulo(),
+						l.getDtAquisicao()	 
+				});
+		}
+	}
+
+	public void pesquisaPorCampo(String consulta) {
+		// TODO Auto-generated method stub
+		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
+		modelo.setNumRows(0);
+		LivrosDAO ldao = new LivrosDAO();
+		
+		for(Livros l: ldao.pesquisa("select * from livros where titulo like '"+consulta+"%'")) {
+			modelo.addRow(new Object[] {
+					l.getId(),
+					l.getAssunto(),
+					l.getAutor(),
+					l.getId_categoria(),
+					l.getTitulo(),
+					l.getDtAquisicao()
+					});
+			
+		}
+	}
+	
 }
