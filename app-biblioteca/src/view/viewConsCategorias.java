@@ -27,6 +27,7 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 	private JTextField tfDescricao;
 	private JTable tbConsulta;
 	private JTextField tfID;
+	private JTextArea taObs;
 
 	/**
 	 * Launch the application.
@@ -72,7 +73,7 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 		spTaObs.setBounds(10, 73, 241, 69);
 		panel.add(spTaObs);
 		
-		JTextArea taObs = new JTextArea();
+		taObs = new JTextArea();
 		spTaObs.setViewportView(taObs);
 
 		JButton btnPesquisar = new JButton("Pesquisar");
@@ -85,7 +86,7 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 				}
 			}
 		});
-		btnPesquisar.setBounds(261, 11, 89, 23);
+		btnPesquisar.setBounds(260, 2, 92, 25);
 		panel.add(btnPesquisar);
 
 		JButton btnAlterar = new JButton("Alterar");
@@ -93,9 +94,9 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 			public void actionPerformed(ActionEvent e) {
 				if(tfID.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
-					if(tfDescricao.getText().length()==0){
+				}else if(tfDescricao.getText().length()==0){
 						JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
-						if(taObs.getText().length()==0) {
+					}else if(taObs.getText().length()==0) {
 							JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 						}else {
 							CategoriasDAO c =new CategoriasDAO();
@@ -104,12 +105,11 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 									+ "obs=?"
 									+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
 						}
-					}
+				limpaCampos();
 				} 
-			}
 		});
 		
-		btnAlterar.setBounds(261, 50, 89, 23);
+		btnAlterar.setBounds(260, 30, 92, 25);
 		panel.add(btnAlterar);
 
 		JButton btnExcluir = new JButton("Excluir");
@@ -125,9 +125,11 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 					CategoriasDAO c =new CategoriasDAO();
 					c.excluir("delete from categorias where id=?", tfID.getText());
 				}
+				limpaCampos();
 			}
 		});
-		btnExcluir.setBounds(261, 85, 89, 23);
+		
+		btnExcluir.setBounds(260, 60, 92, 25);
 		panel.add(btnExcluir);
 
 		JButton btnIncluir = new JButton("Incluir");
@@ -144,10 +146,23 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 							taObs.getText());
 					JOptionPane.showMessageDialog(null, "Incluido com sucesso!!");
 				}
+				limpaCampos();
 			}
 		});
-		btnIncluir.setBounds(261, 119, 89, 23);
+		btnIncluir.setBounds(260, 90, 92, 25);
 		panel.add(btnIncluir);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(260, 120, 92, 25);
+		btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				limpaCampos();
+			}
+		});
+		panel.add(btnCancelar);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(10, 11, 46, 14);
@@ -200,7 +215,7 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
 		
-		for(Categorias c: cdao.pesquisa("select * from categorias")) {
+		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
 			modelo.addRow(new Object[] {
 					c.getId(),
 					c.getDescricao(),
@@ -216,7 +231,7 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
 		
-		for(Categorias c: cdao.pesquisa("select * from categorias where descricao like '"+consulta+"%'")) {
+		for(Categorias c: cdao.pesquisa("select * from categorias where descricao like ?;", consulta)) {
 			modelo.addRow(new Object[] {
 					c.getId(),
 					c.getDescricao(),
@@ -224,5 +239,11 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 					});
 			
 		}
+	}
+	
+	public void limpaCampos() {
+		tfDescricao.setText("");
+		tfID.setText("");
+		taObs.setText("");
 	}
 }

@@ -6,6 +6,9 @@ public class Categorias {
 	private String descricao;
 	private String Obs;
 	
+	public Categorias() {}
+	
+	
 	public void setObs(String obs) {
 		Obs = obs;
 	}
