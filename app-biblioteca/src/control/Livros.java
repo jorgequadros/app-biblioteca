@@ -7,7 +7,7 @@ public class Livros {
 	private String assunto;
 	private String dtAquisicao;
 	private String autor;
-	public Categorias cat;
+	private Categorias cat;
 	
 	public Livros(int id, String titulo, String assunto, String autor, int id_categoria, String descricao, String obs, String dtAquisicao2) {
 		// TODO Auto-generated constructor stub
@@ -23,6 +23,16 @@ public class Livros {
 	}
 
 	
+	public Categorias getCat() {
+		return cat;
+	}
+
+
+	public void setCat(Categorias cat) {
+		this.cat = cat;
+	}
+
+
 	public int getId() {
 		return id;
 	}

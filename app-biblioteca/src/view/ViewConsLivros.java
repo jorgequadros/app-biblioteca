@@ -2,9 +2,12 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -34,7 +37,7 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 	private JFormattedTextField tfDataAquisicao;
 	private JComboBox<Categorias> cboCategorias;
 	private JTable tbConsulta;
-
+	private DefaultComboBoxModel<Categorias> ModelCombo;
 	/**
 	 * Launch the application.
 	 */
@@ -50,6 +53,7 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 	 */
 	public ViewConsLivros() {
 		//super("Consulta Livros!",true,true,false,true);//(redimensionar, fechar, maximizar, iconificar)
+		
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(100, 100, 910, 300);
@@ -74,7 +78,7 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 		lblTitulo.setBounds(47, 11, 46, 14);
 		pnFormulario.add(lblTitulo);
 		
-		tfTitulo = new JTextField();
+		tfTitulo = new JTextField(50);
 		tfTitulo.setBounds(46, 26, 173, 20);
 		pnFormulario.add(tfTitulo);
 		tfTitulo.setColumns(10);
@@ -83,7 +87,7 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 		lblAutor.setBounds(10, 52, 46, 14);
 		pnFormulario.add(lblAutor);
 		
-		tfAutor = new JTextField();
+		tfAutor = new JTextField(50);
 		tfAutor.setBounds(10, 71, 209, 20);
 		pnFormulario.add(tfAutor);
 		tfAutor.setColumns(10);
@@ -108,14 +112,12 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 		cboCategorias = new JComboBox<Categorias>();
 		cboCategorias.setBounds(103, 115, 116, 22);
 		
-		CategoriasDAO cdao = new CategoriasDAO();
-		List<Categorias> lista = cdao.pesquisaTodos("select * from categorias");
 		cboCategorias.removeAll();
-		
-		for(Categorias c:lista) {
-			cboCategorias.addItem(c);
+		CategoriasDAO cdao = new CategoriasDAO();
+		ModelCombo=(DefaultComboBoxModel<Categorias>) this.cboCategorias.getModel();
+		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
+			ModelCombo.addElement(c);
 		}
-				
 		pnFormulario.add(cboCategorias);
 		
 		JLabel lblAssunto = new JLabel("Assunto");
@@ -151,8 +153,11 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setBounds(229, 53, 89, 23);
 		btnAlterar.addActionListener(new ActionListener() {
-			Categorias c = (Categorias) cboCategorias.getSelectedItem();
+			
+			
 			public void actionPerformed(ActionEvent e) {
+				Categorias c = (Categorias)cboCategorias.getSelectedItem();
+				
 				if(tfId.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
 				}else if(tfAutor.getText().length()==0){
@@ -163,10 +168,9 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 							JOptionPane.showMessageDialog(null, "Campos Data Aquisição Vazio!!");
 							}else if(tfTitulo.getText().length()==0) {
 								JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
-								}else if(c.getId()==0) {
-									JOptionPane.showMessageDialog(null, "Campos Categoria não Selecionada!!");
+								
 								}else {
-									System.out.println(tfDataAquisicao.getText().length());
+									
 									LivrosDAO l =new LivrosDAO();
 									l.alterar("update livros "
 											+ "set titulo=?, "
@@ -174,7 +178,7 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 											+ "id_categorias=?, "
 											+ "assunto=?, "
 											+ "dtAquisicao= "
-											+ " where id=?;",tfId.getText(),tfTitulo.getText(), tfAutor.getText(), taAssunto.getText(), convertDataBD(tfDataAquisicao.getText()));
+											+ " where id=?;",tfId.getText(),tfTitulo.getText(), tfAutor.getText(), c.getId(),taAssunto.getText(), convertDataBD(tfDataAquisicao.getText()));
 									JOptionPane.showMessageDialog(null, "Registro Atualizado com sucesso!!");
 									limpaCampos();
 								}
@@ -236,6 +240,34 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 		getContentPane().add(spTbConsulta);
 		
 		tbConsulta = new JTable();
+		tbConsulta.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Boolean tabela =tbConsulta.isEditing();
+				try {
+					tfId.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
+					tfTitulo.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString());
+					tfAutor.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 2).toString());
+					tfDataAquisicao.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 6).toString());
+					ModelCombo.setSelectedItem(tbConsulta.getValueAt(tbConsulta.getSelectedRow(),4));
+					
+					if(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString().length()>0) {
+						taAssunto.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString());
+					}else{
+						taAssunto.setText("");
+						
+					};
+					String Id = tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString();
+					String Livro = tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString();
+					if (tabela==false) {
+						JOptionPane.showMessageDialog(null, "Id : " + Id +" Titulo : " + Livro);
+					} 
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					new Throwable(e1);
+				}
+			}
+		});
 		tbConsulta.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -268,8 +300,8 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 						l.getId(),
 						l.getTitulo(),
 						l.getAutor(),
-						l.cat.getId(),
-						l.cat.getDescricao(),
+						l.getCat().getId(),
+						l.getCat().getDescricao(),
 						l.getAssunto(),
 						l.getDtAquisicao()	 
 				});
@@ -287,9 +319,9 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 					l.getId(),
 					l.getTitulo(),
 					l.getAutor(),
-					l.cat.getId(),
-					l.cat.getDescricao(),
-					l.cat.getObs(),
+					l.getCat().getId(),
+					l.getCat().getDescricao(),
+					l.getCat().getObs(),
 					l.getAssunto(),
 					l.getDtAquisicao()
 					});
@@ -303,6 +335,14 @@ public class ViewConsLivros extends JInternalFrame implements IntJanelas{
 		tfAutor.setText("");
 		taAssunto.setText("");
 		tfDataAquisicao.setText("");
+	}
+	
+	public void preencherCategoria(List<Categorias> categorias) {
+		@SuppressWarnings("unused")
+		DefaultComboBoxModel<Categorias> comboBoxModel = (DefaultComboBoxModel<Categorias>) cboCategorias.getModel();
+		
+		
+			
 	}
 	
 }

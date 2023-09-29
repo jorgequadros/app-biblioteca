@@ -181,8 +181,10 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 
 		tbConsulta = new JTable();
 		tbConsulta.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				Boolean tabela =tbConsulta.isEditing();
 				try {
 					tfID.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
 					tfDescricao.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString());
@@ -193,6 +195,12 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 						taObs.setText("");
 						
 					};
+					
+					if (tabela==false) {
+						JOptionPane.showMessageDialog(null, "Tabela não pode!!");
+					} 
+					
+					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					new Throwable(e1);

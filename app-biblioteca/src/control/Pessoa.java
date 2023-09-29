@@ -7,11 +7,34 @@ public class Pessoa {
 	private String endereco;
 	private String cidade;
 	private String bairro;
-	private String cep;
-	private String telefone;
+	private int cep;
+	private int telefone;
 	private String email;
 	
-	public Pessoa() {	}
+	public Pessoa() {}
+	
+	public Pessoa(String nome, String endereco, String cidade, 
+			String bairro, int cep, int telefone, String email) {
+		this.nome = nome;
+		this.endereco = endereco;
+		this.cidade= cidade;
+		this.bairro=bairro;
+		this.cep =cep;
+		this.telefone =telefone;
+		this.email=email;
+	}
+	
+	public Pessoa(int id, String nome, String endereco, String cidade, 
+			String bairro, int cep, int telefone, String email) {
+		this.id = id;
+		this.nome = nome;
+		this.endereco = endereco;
+		this.cidade= cidade;
+		this.bairro=bairro;
+		this.cep =cep;
+		this.telefone =telefone;
+		this.email=email;
+	}
 
 	public int getId() {
 		return id;
@@ -53,19 +76,19 @@ public class Pessoa {
 		this.bairro = bairro;
 	}
 
-	public String getCep() {
+	public int getCep() {
 		return cep;
 	}
 
-	public void setCep(String cep) {
+	public void setCep(int cep) {
 		this.cep = cep;
 	}
 
-	public String getTelefone() {
+	public int getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
+	public void setTelefone(int telefone) {
 		this.telefone = telefone;
 	}
 

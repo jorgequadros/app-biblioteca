@@ -69,6 +69,24 @@ public class viewPrincipal {
 		mnuCadastro.add(mnuItemCadLivros);
 		
 		JMenuItem mnuItemCadUsuario = new JMenuItem("Usuários");
+		mnuItemCadUsuario.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							ViewUsuario frame = new ViewUsuario();
+							frame.setVisible(true);
+							desktop.add(frame);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		mnuCadastro.add(mnuItemCadUsuario);
 		
 		JMenu MnuConsulta = new JMenu("Consulta");
