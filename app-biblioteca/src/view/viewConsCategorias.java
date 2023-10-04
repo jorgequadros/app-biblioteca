@@ -16,9 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import control.Categorias;
-import model.CategoriasDAO;
-import model.IntJanelas;
+import controller.CategoriasDAO;
+import controller.IntJanelas;
+import model.Categorias;
 
 import javax.swing.JTextArea;
 

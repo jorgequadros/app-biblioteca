@@ -1,46 +1,56 @@
-package model;
+package controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import control.Categorias;
+public abstract class DAO {
 
-public class CategoriasDAO extends DAO{
+	private Connection conexao;
 	
-	@Override
-	public List<Categorias> pesquisa(String sql, String params) {
-		// TODO Auto-generated method stub
-		
-		List<Categorias> categorias = new ArrayList<>();
+	protected Connection getConexao() throws FileNotFoundException, IOException {
 		try {
-			PreparedStatement stmt = getConexao().prepareStatement(sql);
-			stmt.setString(1, params+'%');
-			ResultSet resultado = stmt.executeQuery();
-			
-			while (resultado.next()) {
-				int id = resultado.getInt("id");
-				String descricao = resultado.getString("descricao");
-				String obs = resultado.getString("obs");
-				categorias.add(new Categorias(id,descricao,obs));
+			if(conexao != null && !conexao.isClosed()){
+				return conexao;
 			}
-			
-			stmt.close();
-			getConexao().close();
-			
-		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e);
-		} 
-		
-		
-		return categorias;
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}
+		conexao = ConexaoBD.getConnection();
+		return conexao;
 	}
-
-	@Override
+	
+	protected void adicionarAtributos(PreparedStatement Stmt, 
+			Object[] atributos) throws SQLException{
+		int indice = 1;
+		for(Object atributo: atributos) {
+			
+			if(atributo instanceof String) {
+				Stmt.setString(indice, (String) atributo);
+			}else if(atributo instanceof Integer) {
+				Stmt.setInt(indice, (Integer) atributo);
+			}
+		
+			indice++;
+		}
+	}
+	
+	public void close() throws FileNotFoundException, IOException {
+		
+		try {
+			getConexao().close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}finally {
+			conexao = null;
+		}
+	}
+	
+	
 	public int alterar(String sql, Object... atributos) {
 		// TODO Auto-generated method stub
 		
@@ -62,7 +72,7 @@ public class CategoriasDAO extends DAO{
 		return -1;
 	}
 
-	@Override
+	
 	public int excluir(String sql, Object... atributos) {
 		// TODO Auto-generated method stub
 		try {
@@ -83,7 +93,7 @@ public class CategoriasDAO extends DAO{
 		return 0;
 	}
 
-	@Override
+
 	public int incluir(String sql, Object... atributos) {
 		// TODO Auto-generated method stub
 		
@@ -105,33 +115,8 @@ public class CategoriasDAO extends DAO{
 		
 		return -1;
 	}
-
-	@Override
-	public List<Categorias> pesquisaTodos(String sql) {
-		// TODO Auto-generated method stub
-		List<Categorias> categorias = new ArrayList<>();
-		try {
-			PreparedStatement stmt = getConexao().prepareStatement(sql);
-			ResultSet resultado = stmt.executeQuery();
-			
-			while (resultado.next()) {
-				int id = resultado.getInt("id");
-				String descricao = resultado.getString("descricao");
-				String obs = resultado.getString("obs");
-				categorias.add(new Categorias(id,descricao,obs));
-			}
-			
-			stmt.close();
-			getConexao().close();
-			
-		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+	
+	public abstract List<?> pesquisa(String sql,String params);
+	public abstract List<?> pesquisaTodos(String sql);
 		
-		
-		return categorias;
-	}
-
-
 }

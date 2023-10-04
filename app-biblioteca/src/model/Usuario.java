@@ -1,4 +1,4 @@
-package control;
+package model;
 
 public class Usuario extends Pessoa{
 	private String usuario;

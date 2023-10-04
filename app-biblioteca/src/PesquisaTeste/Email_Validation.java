@@ -1,4 +1,4 @@
-package view;
+package PesquisaTeste;
 
 	import java.util.regex.*;
 	import java.util.*;

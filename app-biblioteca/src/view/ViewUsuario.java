@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Font;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
@@ -13,7 +15,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class ViewUsuario extends JInternalFrame {
+import controller.IntJanelas;
+
+public class ViewUsuario extends JInternalFrame implements IntJanelas{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfID;
@@ -42,10 +46,14 @@ public class ViewUsuario extends JInternalFrame {
 	
 	@SuppressWarnings("serial")
 	public ViewUsuario() {
+		setIconifiable(true);
+		setResizable(true);
+		setClosable(true);
+		setBounds(100, 100, 862, 257);
 		getContentPane().setLayout(null);
 		
 		JPanel pnFormCadastro = new JPanel();
-		pnFormCadastro.setBounds(10, 11, 324, 210);
+		pnFormCadastro.setBounds(10, 11, 327, 231);
 		getContentPane().add(pnFormCadastro);
 		pnFormCadastro.setLayout(null);
 		
@@ -116,7 +124,7 @@ public class ViewUsuario extends JInternalFrame {
 		
 		JLabel lbTelefone = new JLabel("Telefone");
 		lbTelefone.setFont(new Font("Arial", Font.BOLD, 12));
-		lbTelefone.setBounds(84, 105, 46, 14);
+		lbTelefone.setBounds(84, 105, 63, 14);
 		pnFormCadastro.add(lbTelefone);
 		
 		JFormattedTextField formattedTextField = new JFormattedTextField();
@@ -157,17 +165,18 @@ public class ViewUsuario extends JInternalFrame {
 		pnFormCadastro.add(pwdSenha);
 		
 		JComboBox<String> cboTipoOperador = new JComboBox<String>();
+		cboTipoOperador.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Cliente", "Operador"}));
 		cboTipoOperador.setFont(new Font("Arial", Font.PLAIN, 12));
 		cboTipoOperador.setBounds(213, 169, 101, 22);
 		pnFormCadastro.add(cboTipoOperador);
 		
-		JLabel lbTipoOperador = new JLabel("Tipo de Operador");
-		lbTipoOperador.setFont(new Font("Arial", Font.BOLD, 12));
-		lbTipoOperador.setBounds(213, 153, 101, 14);
-		pnFormCadastro.add(lbTipoOperador);
+		JLabel lbPerfil = new JLabel("Perfil");
+		lbPerfil.setFont(new Font("Arial", Font.BOLD, 12));
+		lbPerfil.setBounds(213, 153, 101, 14);
+		pnFormCadastro.add(lbPerfil);
 		
 		JScrollPane spTabela = new JScrollPane();
-		spTabela.setBounds(406, 11, 381, 210);
+		spTabela.setBounds(463, 11, 381, 210);
 		getContentPane().add(spTabela);
 		
 		tbConsulta = new JTable();
@@ -191,6 +200,43 @@ public class ViewUsuario extends JInternalFrame {
 		tbConsulta.getColumnModel().getColumn(3).setPreferredWidth(134);
 		spTabela.setViewportView(tbConsulta);
 		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnPesquisar.setBounds(353, 11, 100, 23);
+		getContentPane().add(btnPesquisar);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnAlterar.setBounds(353, 45, 100, 23);
+		getContentPane().add(btnAlterar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 12));
+		btnExcluir.setBounds(353, 79, 100, 23);
+		getContentPane().add(btnExcluir);
+		
+		JButton btnIncluir = new JButton("Incluir");
+		btnIncluir.setFont(new Font("Arial", Font.BOLD, 12));
+		btnIncluir.setBounds(353, 113, 100, 23);
+		getContentPane().add(btnIncluir);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnCancelar.setBounds(353, 147, 100, 23);
+		getContentPane().add(btnCancelar);
+		
 
+	}
+
+	@Override
+	public void pesquisaTodos() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pesquisaPorCampo(String consulta) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-import control.Categorias;
+import model.Categorias;
 
 @SuppressWarnings({ "serial", "rawtypes" })
 public class CategoriaComboboxModel extends AbstractListModel implements ComboBoxModel{

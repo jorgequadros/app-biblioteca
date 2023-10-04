@@ -53,42 +53,18 @@ public class viewPrincipal {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 990, 22);
 		desktop.add(menuBar);
-		
+		//inicia menu Cadastro
 		JMenu mnuCadastro = new JMenu("Cadastro");
 		menuBar.add(mnuCadastro);
 		
 		JMenuItem mnuItemCadCategorias = new JMenuItem("Categorias");
-		mnuItemCadCategorias.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
 		mnuCadastro.add(mnuItemCadCategorias);
 		
 		JMenuItem mnuItemCadLivros = new JMenuItem("Livros");
 		mnuCadastro.add(mnuItemCadLivros);
 		
-		JMenuItem mnuItemCadUsuario = new JMenuItem("Usuários");
-		mnuItemCadUsuario.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ViewUsuario frame = new ViewUsuario();
-							frame.setVisible(true);
-							desktop.add(frame);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		mnuCadastro.add(mnuItemCadUsuario);
 		
+		//inicia menu Consulta
 		JMenu MnuConsulta = new JMenu("Consulta");
 		menuBar.add(MnuConsulta);
 		
@@ -128,6 +104,28 @@ public class viewPrincipal {
 		});
 		MnuConsulta.add(ItemMnuLivros);
 		
+		JMenuItem mnuItemUsuario = new JMenuItem("Usuários");
+		mnuItemUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							ViewUsuario frame = new ViewUsuario();
+							frame.setVisible(true);
+							desktop.add(frame);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		
+		MnuConsulta.add(mnuItemUsuario);
+		
+		
+		//inicia menu Movimentação
 		JMenu mnuMovimentacao = new JMenu("Movimentação");
 		menuBar.add(mnuMovimentacao);
 		
