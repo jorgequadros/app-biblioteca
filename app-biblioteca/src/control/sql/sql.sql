@@ -1,13 +1,8 @@
 select * from categorias;
-
 alter table livros drop autor;
-
 alter table livros add autor varchar(50);
-
 select * from livros;
-
 select * from categorias where descricao like 'r%';
-
 select * from livros AS l, categorias AS c where c.id=l.id_categoria;
 
 create table usuario (
@@ -23,4 +18,7 @@ create table usuario (
     index(nome)
 );
 
-insert into from usuario 
+alter table usuario add user varchar(20);
+alter table usuario add pws varchar(10);
+alter table usuario add perfil varchar(20);
+alter table usuario add telefone varchar(14); 

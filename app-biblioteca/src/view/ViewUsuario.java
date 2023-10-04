@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -14,8 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import controller.IntJanelas;
+import controller.UsuariosDAO;
 
 public class ViewUsuario extends JInternalFrame implements IntJanelas{
 
@@ -27,7 +32,9 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 	private JTextField tfBairro;
 	private JTextField tfEmail;
 	private JTextField tfUsuario;
+	private JFormattedTextField ftfCep;
 	private JPasswordField pwdSenha;
+	JFormattedTextField ftfTelefone;
 	private JTable tbConsulta;
 
 	/**
@@ -65,6 +72,7 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 		tfID = new JTextField();
 		tfID.setFont(new Font("Arial", Font.PLAIN, 12));
 		tfID.setBounds(10, 27, 23, 20);
+		tfID.setEnabled(false);
 		pnFormCadastro.add(tfID);
 		tfID.setColumns(10);
 		
@@ -117,20 +125,30 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 		lbCep.setBounds(10, 105, 46, 14);
 		pnFormCadastro.add(lbCep);
 		
-		JFormattedTextField ftfCep = new JFormattedTextField();
-		ftfCep.setFont(new Font("Arial", Font.PLAIN, 12));
-		ftfCep.setBounds(10, 122, 70, 20);
-		pnFormCadastro.add(ftfCep);
+		try {
+			ftfCep = new JFormattedTextField(new MaskFormatter("#####-###"));
+			ftfCep.setFont(new Font("Arial", Font.PLAIN, 12));
+			ftfCep.setBounds(10, 122, 70, 20);
+			pnFormCadastro.add(ftfCep);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
 		
 		JLabel lbTelefone = new JLabel("Telefone");
 		lbTelefone.setFont(new Font("Arial", Font.BOLD, 12));
 		lbTelefone.setBounds(84, 105, 63, 14);
 		pnFormCadastro.add(lbTelefone);
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		formattedTextField.setFont(new Font("Arial", Font.PLAIN, 12));
-		formattedTextField.setBounds(84, 122, 80, 20);
-		pnFormCadastro.add(formattedTextField);
+		try {
+			ftfTelefone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
+			ftfTelefone.setFont(new Font("Arial", Font.PLAIN, 12));
+			ftfTelefone.setBounds(84, 122, 80, 20);
+			pnFormCadastro.add(ftfTelefone);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		tfEmail = new JTextField();
 		tfEmail.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -218,6 +236,21 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 		JButton btnIncluir = new JButton("Incluir");
 		btnIncluir.setFont(new Font("Arial", Font.BOLD, 12));
 		btnIncluir.setBounds(353, 113, 100, 23);
+		btnIncluir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				UsuariosDAO udao = new UsuariosDAO();
+				udao.incluir("INSERT INTO FROM usuario (nome,endereco,cidade,bairro,cep,telefone,email,user,pws,perfil) VALUES(?,?,?,?,?,?,?,?,?,?);", 
+														tfNome.getText(),tfEndereco.getText(),
+														tfCidade.getText(), tfBairro.getText(),
+														Integer.parseInt(cep(ftfCep.getText())), 
+														ftfTelefone.getText(), 
+														tfEmail.getText(),tfUsuario.getText(),
+														pwdSenha.getPassword());
+			}
+		});
 		getContentPane().add(btnIncluir);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -225,9 +258,19 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 		btnCancelar.setBounds(353, 147, 100, 23);
 		getContentPane().add(btnCancelar);
 		
-
 	}
-
+	
+	public String cep(String valor) {
+		return valor.replace("-", "");
+	}
+	
+	public String telefone(String valor) {
+		String nvValor = valor.replace("(", "");
+		String nvValor1 = nvValor.replace(")", "");
+		String VlsemTraco=nvValor1.replace("-", "");
+		return VlsemTraco;
+	}
+	
 	@Override
 	public void pesquisaTodos() {
 		// TODO Auto-generated method stub

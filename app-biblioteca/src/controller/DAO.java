@@ -110,7 +110,7 @@ public abstract class DAO {
 			this.close();
 		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException();
+			System.out.println(e);
 		}
 		
 		return -1;
