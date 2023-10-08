@@ -22,11 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import controller.CategoriasDAO;
-import controller.IntJanelas;
-import controller.LivrosDAO;
 import model.Categorias;
+import model.CategoriasDAO;
+import model.IntJanelas;
 import model.Livros;
+import model.LivrosDAO;
 
 @SuppressWarnings("serial")
 public class ViewConsLivros extends JInternalFrame implements IntJanelas{

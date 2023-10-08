@@ -9,3 +9,5 @@
  * //ConexaoBD.getInstance().shutdown(); } catch (SQLException e) { // TODO
  * Auto-generated catch block e.printStackTrace(); } } }
  */
+package model;
+

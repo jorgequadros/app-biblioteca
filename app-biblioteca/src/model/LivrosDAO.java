@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import model.Livros;
 
 public class LivrosDAO extends DAO{
 

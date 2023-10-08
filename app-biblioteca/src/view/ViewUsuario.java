@@ -19,8 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import controller.IntJanelas;
-import controller.UsuariosDAO;
+import model.IntJanelas;
+import model.UsuariosDAO;
 
 public class ViewUsuario extends JInternalFrame implements IntJanelas{
 
@@ -242,13 +242,17 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				UsuariosDAO udao = new UsuariosDAO();
-				udao.incluir("INSERT INTO FROM usuario (nome,endereco,cidade,bairro,cep,telefone,email,user,pws,perfil) VALUES(?,?,?,?,?,?,?,?,?,?);", 
+				
+				String senha= new String(pwdSenha.getPassword());
+				
+				udao.incluir("INSERT INTO usuarios (nome,endereco,cidade,bairro,cep,telefone,email,usuario,pws,perfil) VALUES(?,?,?,?,?,?,?,?,?,?);", 
 														tfNome.getText(),tfEndereco.getText(),
 														tfCidade.getText(), tfBairro.getText(),
 														Integer.parseInt(cep(ftfCep.getText())), 
-														ftfTelefone.getText(), 
+														telefone(ftfTelefone.getText()), 
 														tfEmail.getText(),tfUsuario.getText(),
-														pwdSenha.getPassword());
+														senha, cboTipoOperador.getSelectedItem());
+				limpa();
 			}
 		});
 		getContentPane().add(btnIncluir);
@@ -256,6 +260,14 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnCancelar.setBounds(353, 147, 100, 23);
+		btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				limpa();
+			}
+		});
 		getContentPane().add(btnCancelar);
 		
 	}
@@ -265,10 +277,23 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 	}
 	
 	public String telefone(String valor) {
-		String nvValor = valor.replace("(", "");
-		String nvValor1 = nvValor.replace(")", "");
-		String VlsemTraco=nvValor1.replace("-", "");
+		String nvValor = valor.replace("-", "");
+		String nvValor1 = nvValor.replace("(", "");
+		String VlsemTraco=nvValor1.replace(")", "");
 		return VlsemTraco;
+	}
+	
+	public void limpa() {
+		tfID.setText("");
+		tfNome.setText("");
+		tfEndereco.setText("");
+		tfBairro.setText("");
+		tfCidade.setText("");
+		ftfCep.setText("");
+		ftfTelefone.setText("");
+		tfUsuario.setText("");
+		tfEmail.setText("");
+		pwdSenha.setText("");
 	}
 	
 	@Override

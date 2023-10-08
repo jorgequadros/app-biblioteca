@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 public interface IntJanelas {
 	public void pesquisaTodos() ;
