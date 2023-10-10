@@ -1,12 +1,24 @@
-select * from categorias;
-alter table livros drop autor;
-alter table livros add autor varchar(50);
-select * from livros;
-select * from categorias where descricao like 'r%';
-select * from livros AS l, categorias AS c where c.id=l.id_categoria;
+create table categorias(
+	id mediumint auto_increment not null,
+    descricao varchar(50) not null,
+    obs varchar(100) not null,
+    primary key(id),
+    index(descricao)
+);
+
+create table livros(
+	id mediumint auto_increment not null,
+    titulo varchar(50) not null,
+    id_categoria mediumint not null,
+    assunto varchar(200),
+    dtAquisicao date,
+    primary key(id),
+    foreign key(id_categoria) references categorias(id),
+    index(titulo)
+);
 
 create table usuarios (
-	id int auto_increment not null,
+	id mediumint auto_increment not null,
     nome varchar(50) not null,
     endereco varchar(50) not null,
     cidade varchar(50) not null,
@@ -21,17 +33,26 @@ create table usuarios (
     index(nome)
 );
 
-alter table usuarios add usuario varchar(20);
-alter table usuario add pws varchar(10);
-alter table usuario add perfil varchar(20);
-alter table usuario add telefone smallint; 
-select * from usuarios;
-alter table usuario drop pws; 
-alter table usuario drop telefone; 
-alter table usuario add telefone bigint; 
-alter table usuarios drop email; 
-alter table usuarios add email varchar(100); 
-drop table usuario;
-INSERT INTO usuario (nome,endereco,cidade,bairro,cep,telefone,email,user,perfil) VALUES("jorge quadros","rua quatro","canoas","olaria",92035014,"51998746321","jorge.quadros@gmail.com","jorge.quadros", "Administrador");
+create table emprestimos(
+	id int auto_increment not null,
+    id_usuario mediumint not null,
+    id_livro mediumint not null,
+    dt_retirada date not null,
+    dt_devolucao date not null,
+    foreign key(id_usuario) references usuarios(id),
+    foreign key(id_livro) references livros(id),
+    primary key(id),
+    index(dt_devolucao)
+    );
 
+select * from usuarios;
+select * from categorias;
+select * from livros;
+select * from categorias where descricao like 'r%';
+select * from livros AS l, categorias AS c where c.id=l.id_categoria;
+
+alter table livros drop id_categoria;
+alter table livros add id_categoria mediumint;
+
+INSERT INTO usuario (nome,endereco,cidade,bairro,cep,telefone,email,user,perfil) VALUES("jorge quadros","rua quatro","canoas","olaria",92035014,"51998746321","jorge.quadros@gmail.com","jorge.quadros", "Administrador");
 INSERT INTO usuarios (nome,endereco,cidade,bairro,cep,telefone,email,usuario,pws,perfil) VALUES("Miriam Quadros","Rua um","Canoas","Olaria",92035014,"51998746321","miriam.souza@gmail.com","miriam.souza","12345","Operador")
