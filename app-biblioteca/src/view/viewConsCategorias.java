@@ -12,18 +12,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import model.Categorias;
-import model.CategoriasDAO;
-import model.IntJanelas;
-
-import javax.swing.JTextArea;
+import controller.CategoriasController;
+import helpers.CategoriaHelpers;
 
 @SuppressWarnings("serial")
-public class viewConsCategorias extends JInternalFrame implements IntJanelas{
+public class viewConsCategorias extends JInternalFrame{
 	private JTextField tfDescricao;
 	private JTable tbConsulta;
 	private JTextField tfID;
@@ -80,9 +78,11 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tfDescricao.getText().length()>0) {
-					pesquisaPorCampo(tfDescricao.getText());
+					CategoriasController cctrl = new CategoriasController();
+					cctrl.pesquisaPorCampo(tfDescricao.getText(), tbConsulta);
 				}else {
-					pesquisaTodos();
+					CategoriasController cctrl = new CategoriasController();
+					cctrl.pesquisaTodos(tbConsulta);
 				}
 			}
 		});
@@ -99,13 +99,11 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 					}else if(taObs.getText().length()==0) {
 							JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 						}else {
-							CategoriasDAO c =new CategoriasDAO();
-							c.alterar("update categorias "
-									+ "set descricao=?, "
-									+ "obs=?"
-									+ " where id=?;", tfDescricao.getText(), taObs.getText(), tfID.getText());
+							CategoriasController ccontrol = new CategoriasController();
+							ccontrol.alterar(tfDescricao.getText(), taObs.getText(), tfID.getText());
 						}
-				limpaCampos();
+				CategoriaHelpers chelp = new CategoriaHelpers();
+				chelp.limpaCampos(tfDescricao,tfID,taObs);
 				} 
 		});
 		
@@ -122,8 +120,8 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 				}else if(taObs.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 				}else {
-					CategoriasDAO c =new CategoriasDAO();
-					c.excluir("delete from categorias where id=?", tfID.getText());
+					CategoriasController cctrl =new CategoriasController();
+					cctrl.excluir(Integer.parseInt(tfID.getText()));
 				}
 				limpaCampos();
 			}
@@ -141,9 +139,8 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 				}else if(taObs.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 				}else {
-					CategoriasDAO cdao = new CategoriasDAO();
-					cdao.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", tfDescricao.getText(),
-							taObs.getText());
+					CategoriasController cctrl = new CategoriasController();
+					cctrl.incluir(tfDescricao.getText(), taObs.getText());
 					JOptionPane.showMessageDialog(null, "Incluido com sucesso!!");
 				}
 				limpaCampos();
@@ -216,42 +213,5 @@ public class viewConsCategorias extends JInternalFrame implements IntJanelas{
 		//pesquisaTodos();
 
 	}
-		
-	public void pesquisaTodos() {
-		// TODO Auto-generated method stub
-		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
-		modelo.setNumRows(0);
-		CategoriasDAO cdao = new CategoriasDAO();
-		
-		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
-			modelo.addRow(new Object[] {
-					c.getId(),
-					c.getDescricao(),
-					c.getObs()
-					});
-			
-		}
-	}
-
-	public void pesquisaPorCampo(String consulta) {
-		// TODO Auto-generated method stub
-		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
-		modelo.setNumRows(0);
-		CategoriasDAO cdao = new CategoriasDAO();
-		
-		for(Categorias c: cdao.pesquisa("select * from categorias where descricao like ?;", consulta)) {
-			modelo.addRow(new Object[] {
-					c.getId(),
-					c.getDescricao(),
-					c.getObs()
-					});
-			
-		}
-	}
 	
-	public void limpaCampos() {
-		tfDescricao.setText("");
-		tfID.setText("");
-		taObs.setText("");
-	}
 }

@@ -24,12 +24,11 @@ import javax.swing.text.MaskFormatter;
 
 import model.Categorias;
 import model.CategoriasDAO;
-import model.IntJanelas;
 import model.Livros;
 import model.LivrosDAO;
 
 @SuppressWarnings("serial")
-public class ViewConsLivros extends JInternalFrame implements IntJanelas{
+public class ViewConsLivros extends JInternalFrame {
 	private JTextField tfId;
 	private JTextField tfTitulo;
 	private JTextField tfAutor;

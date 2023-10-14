@@ -19,10 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import model.IntJanelas;
 import model.UsuariosDAO;
 
-public class ViewUsuario extends JInternalFrame implements IntJanelas{
+public class ViewUsuario extends JInternalFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfID;
@@ -296,15 +295,5 @@ public class ViewUsuario extends JInternalFrame implements IntJanelas{
 		pwdSenha.setText("");
 	}
 	
-	@Override
-	public void pesquisaTodos() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pesquisaPorCampo(String consulta) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
