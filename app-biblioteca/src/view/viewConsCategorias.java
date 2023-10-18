@@ -123,7 +123,8 @@ public class viewConsCategorias extends JInternalFrame{
 					CategoriasController cctrl =new CategoriasController();
 					cctrl.excluir(Integer.parseInt(tfID.getText()));
 				}
-				limpaCampos();
+				CategoriaHelpers chelp = new CategoriaHelpers();
+				chelp.limpaCampos(tfDescricao,tfID, taObs);
 			}
 		});
 		
@@ -135,7 +136,6 @@ public class viewConsCategorias extends JInternalFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(tfDescricao.getText().length()==0){
 					JOptionPane.showMessageDialog(null, "Campos Descrição Vazio!!");
-					
 				}else if(taObs.getText().length()==0) {
 					JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 				}else {
@@ -143,7 +143,8 @@ public class viewConsCategorias extends JInternalFrame{
 					cctrl.incluir(tfDescricao.getText(), taObs.getText());
 					JOptionPane.showMessageDialog(null, "Incluido com sucesso!!");
 				}
-				limpaCampos();
+				CategoriaHelpers chelp = new CategoriaHelpers();
+				chelp.limpaCampos(tfDescricao,tfID, taObs);
 			}
 		});
 		btnIncluir.setBounds(260, 90, 92, 25);
@@ -156,7 +157,8 @@ public class viewConsCategorias extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				limpaCampos();
+				CategoriaHelpers chelp = new CategoriaHelpers();
+				chelp.limpaCampos(tfDescricao,tfID, taObs);
 			}
 		});
 		panel.add(btnCancelar);
@@ -194,7 +196,7 @@ public class viewConsCategorias extends JInternalFrame{
 					};
 					
 					if (tabela==false) {
-						JOptionPane.showMessageDialog(null, "Tabela não pode!!");
+						JOptionPane.showMessageDialog(null, "ID : "+ tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
 					} 
 					
 					
@@ -209,8 +211,6 @@ public class viewConsCategorias extends JInternalFrame{
 		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		tbConsulta.setRowSorter(new TableRowSorter<DefaultTableModel>(modelo));
-		
-		//pesquisaTodos();
 
 	}
 	

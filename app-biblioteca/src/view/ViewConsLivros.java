@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -22,10 +21,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import controller.LivrosController;
+import helpers.LivrosHelpers;
 import model.Categorias;
 import model.CategoriasDAO;
-import model.Livros;
-import model.LivrosDAO;
 
 @SuppressWarnings("serial")
 public class ViewConsLivros extends JInternalFrame {
@@ -40,13 +39,7 @@ public class ViewConsLivros extends JInternalFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { ViewConsLivros frame = new
-	 * ViewConsLivros(); frame.setVisible(true); } catch (Exception e) {
-	 * e.printStackTrace(); } } }); }
-	 */
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -113,10 +106,12 @@ public class ViewConsLivros extends JInternalFrame {
 		
 		cboCategorias.removeAll();
 		CategoriasDAO cdao = new CategoriasDAO();
+		
 		ModelCombo=(DefaultComboBoxModel<Categorias>) this.cboCategorias.getModel();
 		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
 			ModelCombo.addElement(c);
 		}
+		
 		pnFormulario.add(cboCategorias);
 		
 		JLabel lblAssunto = new JLabel("Assunto");
@@ -139,13 +134,14 @@ public class ViewConsLivros extends JInternalFrame {
 				// TODO Auto-generated method stub
 				
 					if(tfTitulo.getText().length()>0) {
-						pesquisaPorCampo(tfTitulo.getText());
+						LivrosController lctrl = new LivrosController();
+						lctrl.pesquisaPorCampo(tfTitulo.getText(),tbConsulta);
 					}else {
-						pesquisaTodos();
+						LivrosController lctrl = new LivrosController();
+						lctrl.pesquisaTodos(tbConsulta);
 					}
 				}
-				
-			
+					
 		});
 		pnFormulario.add(btnPesquisa);
 		
@@ -167,19 +163,12 @@ public class ViewConsLivros extends JInternalFrame {
 							JOptionPane.showMessageDialog(null, "Campos Data Aquisição Vazio!!");
 							}else if(tfTitulo.getText().length()==0) {
 								JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
-								
 								}else {
-									
-									LivrosDAO l =new LivrosDAO();
-									l.alterar("update livros "
-											+ "set titulo=?, "
-											+ "autor=?, "
-											+ "id_categorias=?, "
-											+ "assunto=?, "
-											+ "dtAquisicao= "
-											+ " where id=?;",tfId.getText(),tfTitulo.getText(), tfAutor.getText(), c.getId(),taAssunto.getText(), convertDataBD(tfDataAquisicao.getText()));
+									LivrosHelpers lhelp = new LivrosHelpers();
+									LivrosController lctrl = new LivrosController();
+									lctrl.alterar(tfTitulo.getText(), tfAutor.getText(), c.getId(),taAssunto.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()),tfId.getText());
+									lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
 									JOptionPane.showMessageDialog(null, "Registro Atualizado com sucesso!!");
-									limpaCampos();
 								}
 				}
 		});
@@ -195,10 +184,11 @@ public class ViewConsLivros extends JInternalFrame {
 				if(tfId.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
 				}else {
-					CategoriasDAO c =new CategoriasDAO();
-					c.excluir("delete from livros where id=?", tfId.getText());
+					LivrosController lctrl = new LivrosController();
+					lctrl.excluir(Integer.parseInt(tfId.getText()));
 					JOptionPane.showMessageDialog(null, "Registro Excluido com sucesso!!");
-					limpaCampos();
+					LivrosHelpers lhelp = new LivrosHelpers();
+					lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
 				}
 			}
 		});
@@ -213,11 +203,13 @@ public class ViewConsLivros extends JInternalFrame {
 				// TODO Auto-generated method stub
 				
 				Categorias c = (Categorias) cboCategorias.getSelectedItem();
-								
-				LivrosDAO ldao = new LivrosDAO();
-				ldao.incluir("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", tfTitulo.getText(), c.getId(), tfAutor.getText(), convertDataBD(tfDataAquisicao.getText()), taAssunto.getText());
+				
+				LivrosHelpers lhelp = new LivrosHelpers();
+				LivrosController lctrl = new LivrosController();
+				lctrl.incluir(tfTitulo.getText(), c.getId(), tfAutor.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()), taAssunto.getText());
+				
 				JOptionPane.showMessageDialog(null, "Registro Incluido com sucesso!!");
-				limpaCampos();
+				lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
 			}
 		});
 		pnFormulario.add(btnIncluir);
@@ -229,7 +221,8 @@ public class ViewConsLivros extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				limpaCampos();
+				LivrosHelpers lhelp = new LivrosHelpers();
+				lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
 			}
 		});
 		pnFormulario.add(btnCancelar);
@@ -276,72 +269,6 @@ public class ViewConsLivros extends JInternalFrame {
 		));
 		spTbConsulta.setViewportView(tbConsulta);
 
-	}
-	
-		
-	public String convertDataBD(String data) {
-		String dia =data.substring(0, 2);
-		String mes =data.substring(3, 5);
-		String ano =data.substring(6, 10);
-		String convertData = ano+"-"+mes+"-"+dia;
-		return convertData;
-	}
-	
-	
-	public void pesquisaTodos() {
-		// TODO Auto-generated method stub
-		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
-		modelo.setNumRows(0);
-		LivrosDAO ldao = new LivrosDAO();
-		
-		for(Livros l: ldao.pesquisaTodos("select * from livros AS l, Categorias As c where c.id=l.id_categoria")) {
-				modelo.addRow(new Object[] {
-						l.getId(),
-						l.getTitulo(),
-						l.getAutor(),
-						l.getCat().getId(),
-						l.getCat().getDescricao(),
-						l.getAssunto(),
-						l.getDtAquisicao()	 
-				});
-		}
-	}
-
-	public void pesquisaPorCampo(String consulta) {
-		// TODO Auto-generated method stub
-		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
-		modelo.setNumRows(0);
-		LivrosDAO ldao = new LivrosDAO();
-		String novaConsulta = consulta+"%";
-		for(Livros l: ldao.pesquisa("select * from livros where titulo like ?",novaConsulta)) {
-			modelo.addRow(new Object[] {
-					l.getId(),
-					l.getTitulo(),
-					l.getAutor(),
-					l.getCat().getId(),
-					l.getCat().getDescricao(),
-					l.getCat().getObs(),
-					l.getAssunto(),
-					l.getDtAquisicao()
-					});
-			
-		}
-	}
-	
-	public void limpaCampos() {
-		tfId.setText("");
-		tfTitulo.setText("");
-		tfAutor.setText("");
-		taAssunto.setText("");
-		tfDataAquisicao.setText("");
-	}
-	
-	public void preencherCategoria(List<Categorias> categorias) {
-		@SuppressWarnings("unused")
-		DefaultComboBoxModel<Categorias> comboBoxModel = (DefaultComboBoxModel<Categorias>) cboCategorias.getModel();
-		
-		
-			
 	}
 	
 }

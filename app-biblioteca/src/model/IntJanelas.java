@@ -8,5 +8,4 @@ public interface IntJanelas {
 	public void excluir(int id);
 	public void pesquisaPorCampo(String consulta, JTable tbConsulta) ;
 	void pesquisaTodos(JTable tbConsulta);
-	
 }
