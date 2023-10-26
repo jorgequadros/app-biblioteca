@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UsuariosDAO extends DAO{
@@ -84,20 +81,4 @@ public class UsuariosDAO extends DAO{
 		return usuarios;
 	}
 	
-	public Date ConvertString(String data) {
-		
-		try {
-			String dia =data.substring(0, 2);
-			String mes =data.substring(3, 5);
-			String ano =data.substring(6, 10);
-			String convertData = dia+"-"+mes+"-"+ano;
-			return  new SimpleDateFormat("dd-MM-yyyy").parse(convertData) ;
-		
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 }

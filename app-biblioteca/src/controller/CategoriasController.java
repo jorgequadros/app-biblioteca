@@ -5,16 +5,15 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Categorias;
 import model.CategoriasDAO;
-import model.IntJanelas;
+import model.InterfacesDAO;
 
-public class CategoriasController implements IntJanelas{
+public class CategoriasController implements InterfacesDAO{
 
 	@Override
 	public void incluir(Object... campos) {
 		// TODO Auto-generated method stub
 		CategoriasDAO cdao = new CategoriasDAO();
-		cdao.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", campos[0].toString(),
-				campos[1].toString());
+		cdao.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", campos);
 	}
 
 	@Override
@@ -24,7 +23,7 @@ public class CategoriasController implements IntJanelas{
 		c.alterar("update categorias "
 				+ "set descricao=?, "
 				+ "obs=?"
-				+ " where id=?;", campos[0].toString(), campos[1].toString(), campos[2].toString());
+				+ " where id=?;", campos);
 	}
 
 	@Override

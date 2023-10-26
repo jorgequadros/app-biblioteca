@@ -62,6 +62,24 @@ public class CategoriasDAO extends DAO{
 		
 		return categorias;
 	}
-
-
+	
+	public int buscaId(Object valor) {
+		String sql = "SELECT ID FROM categorias WHERE DESCRICAO=?";
+		
+		try {
+			PreparedStatement stmt = getConexao().prepareStatement(sql);
+			stmt.setString(1, valor.toString());
+			ResultSet resultado = stmt.executeQuery();
+			Categorias c = new Categorias();
+			if (resultado.next()) {
+				c.setId(resultado.getInt("id"));
+			}
+			return c.getId();
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+		}
+		return 0; 
+	
+	}	
 }

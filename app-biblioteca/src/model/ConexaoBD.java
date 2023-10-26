@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConexaoBD {
-
-	//private static ConexaoBD instance = null;
-	private Connection connection =null;
 		
 	private ConexaoBD() {}
 		
@@ -38,19 +35,6 @@ public class ConexaoBD {
 			throw new RuntimeException(e);
 		}
 		return null;
-	}
-	
-	public void shutdown() { // Efetua fechamento controlado da conexão
-		System.out.println("DB[shutdown cliente]");
-	
-		try {
-			connection.close();
-			//instance = null;
-			connection = null;
-			System.out.println("DB[conexao fechada]");
-		} catch (SQLException sqle) {
-			System.err.println(sqle);
-		}
 	}
 	
 }

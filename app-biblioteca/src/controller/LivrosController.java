@@ -4,17 +4,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.CategoriasDAO;
-import model.IntJanelas;
+import model.InterfacesDAO;
 import model.Livros;
 import model.LivrosDAO;
 
-public class LivrosController implements IntJanelas{
+public class LivrosController implements InterfacesDAO{
 
 	@Override
 	public void incluir(Object... campos) {
 		// TODO Auto-generated method stub
 		LivrosDAO ldao = new LivrosDAO();
-		ldao.incluir("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", campos[0],campos[1],campos[2],campos[3],campos[4]);
+		ldao.incluir("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", campos);
 	}
 
 	@Override
@@ -24,11 +24,10 @@ public class LivrosController implements IntJanelas{
 		l.alterar("update livros "
 				+ "set titulo=?, "
 				+ "autor=?, "
-				+ "id_categorias=?, "
+				+ "id_categoria=?, "
 				+ "assunto=?, "
 				+ "dtAquisicao=? "
-				+ " where id=?;",campos[0],campos[1],campos[2],campos[4],campos[5]);
-		
+				+ " where id=?;",campos);
 	}
 
 	@Override
@@ -78,7 +77,12 @@ public class LivrosController implements IntJanelas{
 						l.getDtAquisicao()	 
 				});
 		}
-		
+				
+	}
+	
+	public int buscaIdCategoria(Object Valor) {
+		CategoriasDAO cdao = new  CategoriasDAO();
+		return cdao.buscaId(Valor);
 	}
 
 }

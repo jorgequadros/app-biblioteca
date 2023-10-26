@@ -149,27 +149,28 @@ public class ViewConsLivros extends JInternalFrame {
 		btnAlterar.setBounds(229, 53, 89, 23);
 		btnAlterar.addActionListener(new ActionListener() {
 			
-			
 			public void actionPerformed(ActionEvent e) {
-				Categorias c = (Categorias)cboCategorias.getSelectedItem();
-				
-				if(tfId.getText().length()==0) {
-					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
-				}else if(tfAutor.getText().length()==0){
-						JOptionPane.showMessageDialog(null, "Campos Autor Vazio!!");
-					}else if(taAssunto.getText().length()==0) {
-							JOptionPane.showMessageDialog(null, "Campos Assunto Vazio!!");
-						}else if(tfDataAquisicao.getText().length()==0) {
-							JOptionPane.showMessageDialog(null, "Campos Data Aquisição Vazio!!");
-							}else if(tfTitulo.getText().length()==0) {
-								JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
-								}else {
-									LivrosHelpers lhelp = new LivrosHelpers();
-									LivrosController lctrl = new LivrosController();
-									lctrl.alterar(tfTitulo.getText(), tfAutor.getText(), c.getId(),taAssunto.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()),tfId.getText());
-									lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
-									JOptionPane.showMessageDialog(null, "Registro Atualizado com sucesso!!");
-								}
+				//seleciona o item Jcombobox e passando para um objeto
+				Categorias c = (Categorias) cboCategorias.getSelectedItem();
+											
+						if(tfId.getText().length()==0) {
+							JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
+						}else if(tfAutor.getText().length()==0){
+								JOptionPane.showMessageDialog(null, "Campos Autor Vazio!!");
+							}else if(taAssunto.getText().length()==0) {
+									JOptionPane.showMessageDialog(null, "Campos Assunto Vazio!!");
+								}else if(tfDataAquisicao.getText().length()==0) {
+									JOptionPane.showMessageDialog(null, "Campos Data Aquisição Vazio!!");
+									}else if(tfTitulo.getText().length()==0) {
+										JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
+										}else {
+											LivrosHelpers lhelp = new LivrosHelpers();
+											LivrosController lctrl = new LivrosController();
+											lctrl.alterar(tfTitulo.getText(), tfAutor.getText(), c.getId(),taAssunto.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()),tfId.getText());
+											lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
+											JOptionPane.showMessageDialog(null, "Registro Atualizado com sucesso!!");
+										}
+					
 				}
 		});
 		pnFormulario.add(btnAlterar);
@@ -184,10 +185,10 @@ public class ViewConsLivros extends JInternalFrame {
 				if(tfId.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
 				}else {
+					LivrosHelpers lhelp = new LivrosHelpers();
 					LivrosController lctrl = new LivrosController();
 					lctrl.excluir(Integer.parseInt(tfId.getText()));
 					JOptionPane.showMessageDialog(null, "Registro Excluido com sucesso!!");
-					LivrosHelpers lhelp = new LivrosHelpers();
 					lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
 				}
 			}
@@ -204,12 +205,21 @@ public class ViewConsLivros extends JInternalFrame {
 				
 				Categorias c = (Categorias) cboCategorias.getSelectedItem();
 				
-				LivrosHelpers lhelp = new LivrosHelpers();
-				LivrosController lctrl = new LivrosController();
-				lctrl.incluir(tfTitulo.getText(), c.getId(), tfAutor.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()), taAssunto.getText());
-				
-				JOptionPane.showMessageDialog(null, "Registro Incluido com sucesso!!");
-				lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
+				if(tfAutor.getText().length()==0){
+						JOptionPane.showMessageDialog(null, "Campos Autor Vazio!!");
+					}else if(taAssunto.getText().length()==0) {
+							JOptionPane.showMessageDialog(null, "Campos Assunto Vazio!!");
+						}else if(tfDataAquisicao.getText().length()==0) {
+							JOptionPane.showMessageDialog(null, "Campos Data Aquisição Vazio!!");
+							}else if(tfTitulo.getText().length()==0) {
+								JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
+								}else {
+									LivrosHelpers lhelp = new LivrosHelpers();
+									LivrosController lctrl = new LivrosController();
+									lctrl.incluir(tfTitulo.getText(), c.getId(), tfAutor.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()), taAssunto.getText());
+									JOptionPane.showMessageDialog(null, "Registro Incluido com sucesso!!");
+									lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
+								}
 			}
 		});
 		pnFormulario.add(btnIncluir);

@@ -2,7 +2,7 @@ package model;
 
 import javax.swing.JTable;
 
-public interface IntJanelas {
+public interface InterfacesDAO {
 	public void incluir(Object... campos);
 	public void alterar(Object... campos);
 	public void excluir(int id);

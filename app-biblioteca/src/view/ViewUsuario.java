@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import helpers.UsuariosHelpers;
 import model.UsuariosDAO;
 
 public class ViewUsuario extends JInternalFrame{
@@ -240,6 +241,8 @@ public class ViewUsuario extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
+				UsuariosHelpers uhelp = new UsuariosHelpers();
 				UsuariosDAO udao = new UsuariosDAO();
 				
 				String senha= new String(pwdSenha.getPassword());
@@ -247,11 +250,11 @@ public class ViewUsuario extends JInternalFrame{
 				udao.incluir("INSERT INTO usuarios (nome,endereco,cidade,bairro,cep,telefone,email,usuario,pws,perfil) VALUES(?,?,?,?,?,?,?,?,?,?);", 
 														tfNome.getText(),tfEndereco.getText(),
 														tfCidade.getText(), tfBairro.getText(),
-														Integer.parseInt(cep(ftfCep.getText())), 
-														telefone(ftfTelefone.getText()), 
+														Integer.parseInt(uhelp.cep(ftfCep.getText())), 
+														uhelp.telefone(ftfTelefone.getText()), 
 														tfEmail.getText(),tfUsuario.getText(),
 														senha, cboTipoOperador.getSelectedItem());
-				limpa();
+				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
 			}
 		});
 		getContentPane().add(btnIncluir);
@@ -264,36 +267,12 @@ public class ViewUsuario extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				limpa();
+				UsuariosHelpers uhelp = new UsuariosHelpers();
+				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
 			}
 		});
 		getContentPane().add(btnCancelar);
 		
 	}
-	
-	public String cep(String valor) {
-		return valor.replace("-", "");
-	}
-	
-	public String telefone(String valor) {
-		String nvValor = valor.replace("-", "");
-		String nvValor1 = nvValor.replace("(", "");
-		String VlsemTraco=nvValor1.replace(")", "");
-		return VlsemTraco;
-	}
-	
-	public void limpa() {
-		tfID.setText("");
-		tfNome.setText("");
-		tfEndereco.setText("");
-		tfBairro.setText("");
-		tfCidade.setText("");
-		ftfCep.setText("");
-		ftfTelefone.setText("");
-		tfUsuario.setText("");
-		tfEmail.setText("");
-		pwdSenha.setText("");
-	}
-	
 	
 }
