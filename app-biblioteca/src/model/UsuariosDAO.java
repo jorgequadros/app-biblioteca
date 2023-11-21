@@ -24,11 +24,11 @@ public class UsuariosDAO extends DAO{
 				String cidade = resultado.getString("cidade");
 				String bairro = resultado.getString("bairro");
 				int cep = resultado.getInt("cep");
-				int telefone = resultado.getInt("telefone");
+				String telefone = resultado.getString("telefone");
 				String email = resultado.getString("email");;
 				String usuario= resultado.getString("usuario");
-				String senha= resultado.getString("senha");
-				String tipousuario= resultado.getString("tipousuario");
+				String senha= resultado.getString("pws");
+				String tipousuario= resultado.getString("perfil");
 				
 				usuarios.add(new Usuario(id,nome,endereco,cidade,bairro,cep,telefone, email, usuario,senha,tipousuario));
 			}
@@ -60,7 +60,7 @@ public class UsuariosDAO extends DAO{
 				String cidade = resultado.getString("cidade");
 				String bairro = resultado.getString("bairro");
 				int cep = resultado.getInt("cep");
-				int telefone = resultado.getInt("telefone");
+				String telefone = resultado.getString("telefone");
 				String email = resultado.getString("email");;
 				String usuario= resultado.getString("usuario");
 				String senha= resultado.getString("senha");

@@ -13,7 +13,7 @@ public class UsuarioController implements InterfacesDAO{
 	public void incluir(Object... campos) {
 		// TODO Auto-generated method stub
 		UsuariosDAO udao = new UsuariosDAO();
-		udao.incluir("INSERT INTO usuarios (nome, endereco, cidade,bairro,cep,telefone,email,usuario,pws,perfil)"
+		udao.comandoSql("INSERT INTO usuarios (nome, endereco, cidade,bairro,cep,telefone,email,usuario,pws,perfil)"
 				+ " VALUES(?,?,?,?,?,?,?,?,?,?) ", campos);
 	}
 
@@ -21,7 +21,7 @@ public class UsuarioController implements InterfacesDAO{
 	public void alterar(Object... campos) {
 		// TODO Auto-generated method stub
 		UsuariosDAO udao = new UsuariosDAO();
-		udao.alterar("UPDATE usuarios set "
+		udao.comandoSql("UPDATE usuarios set "
 				+ " nome=?,"
 				+ " endereco=?,"
 				+ " cidade=?,"
@@ -38,7 +38,7 @@ public class UsuarioController implements InterfacesDAO{
 	public void excluir(int id) {
 		// TODO Auto-generated method stub
 		UsuariosDAO udao = new UsuariosDAO();
-		udao.excluir("DELETE FROM usuarios WHERE ID=?", id);
+		udao.comandoSql("DELETE FROM usuarios WHERE ID=?", id);
 		
 	}
 

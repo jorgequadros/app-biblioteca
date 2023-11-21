@@ -50,51 +50,8 @@ public abstract class DAO {
 		}
 	}
 	
-	
-	public int alterar(String sql, Object... atributos) {
-		// TODO Auto-generated method stub
 		
-		try {
-			PreparedStatement stmt = getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			adicionarAtributos(stmt, atributos);
-			if(stmt.executeUpdate()>0) {
-				ResultSet resultado = stmt.getGeneratedKeys();
-				if(resultado.next()) {
-					return resultado.getInt(1);
-				}
-			}
-			
-			this.close();
-		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e);
-		}
-		return -1;
-	}
-
-	
-	public int excluir(String sql, Object... atributos) {
-		// TODO Auto-generated method stub
-		try {
-			PreparedStatement stmt = getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			adicionarAtributos(stmt, atributos);
-			if(stmt.executeUpdate()>0) {
-				ResultSet resultado = stmt.getGeneratedKeys();
-				if(resultado.next()) {
-					return resultado.getInt(1);
-				}
-			}
-			
-			this.close();
-		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException();
-		}
-		return 0;
-	}
-
-
-	public int incluir(String sql, Object... atributos) {
+	public int comandoSql(String sql, Object... atributos) {
 		// TODO Auto-generated method stub
 		
 		try {

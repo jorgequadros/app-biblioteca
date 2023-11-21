@@ -8,7 +8,7 @@ public class Usuario extends Pessoa{
 	public Usuario() {}
 	
 	public Usuario(String nome, String endereco, String cidade, String bairro,
-			int cep, int telefone, String email, String usuario, String senha, String tipousuario) {
+			int cep, String telefone, String email, String usuario, String senha, String tipousuario) {
 		super(nome, endereco, cidade, bairro, cep, telefone, email);
 		this.usuario=usuario;
 		this.senha=senha;
@@ -16,7 +16,7 @@ public class Usuario extends Pessoa{
 	}
 	
 	public Usuario(int id, String nome, String endereco, String cidade, String bairro,
-			int cep, int telefone, String email, String usuario, String senha, String tipousuario) {
+			int cep, String telefone, String email, String usuario, String senha, String tipousuario) {
 		super(id, nome, endereco, cidade, bairro, cep, telefone, email);
 		this.usuario=usuario;
 		this.senha=senha;

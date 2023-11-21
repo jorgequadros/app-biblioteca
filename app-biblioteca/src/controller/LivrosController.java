@@ -14,14 +14,14 @@ public class LivrosController implements InterfacesDAO{
 	public void incluir(Object... campos) {
 		// TODO Auto-generated method stub
 		LivrosDAO ldao = new LivrosDAO();
-		ldao.incluir("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", campos);
+		ldao.comandoSql("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", campos);
 	}
 
 	@Override
 	public void alterar(Object... campos) {
 		// TODO Auto-generated method stub
 		LivrosDAO l =new LivrosDAO();
-		l.alterar("update livros "
+		l.comandoSql("update livros "
 				+ "set titulo=?, "
 				+ "autor=?, "
 				+ "id_categoria=?, "
@@ -34,7 +34,7 @@ public class LivrosController implements InterfacesDAO{
 	public void excluir(int id) {
 		// TODO Auto-generated method stub
 		CategoriasDAO c =new CategoriasDAO();
-		c.excluir("delete from livros where id=?", id);
+		c.comandoSql("delete from livros where id=?", id);
 	}
 
 	@Override

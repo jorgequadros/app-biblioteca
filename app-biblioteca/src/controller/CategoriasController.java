@@ -13,14 +13,14 @@ public class CategoriasController implements InterfacesDAO{
 	public void incluir(Object... campos) {
 		// TODO Auto-generated method stub
 		CategoriasDAO cdao = new CategoriasDAO();
-		cdao.incluir("INSERT INTO categorias (descricao, obs) values(?,?)", campos);
+		cdao.comandoSql("INSERT INTO categorias (descricao, obs) values(?,?)", campos);
 	}
 
 	@Override
 	public void alterar(Object... campos) {
 		// TODO Auto-generated method stub
 		CategoriasDAO c =new CategoriasDAO();
-		c.alterar("update categorias "
+		c.comandoSql("update categorias "
 				+ "set descricao=?, "
 				+ "obs=?"
 				+ " where id=?;", campos);
@@ -30,7 +30,7 @@ public class CategoriasController implements InterfacesDAO{
 	public void excluir(int id) {
 		// TODO Auto-generated method stub
 		CategoriasDAO c =new CategoriasDAO();
-		c.excluir("delete from categorias where id=?", id);
+		c.comandoSql("delete from categorias where id=?", id);
 		
 	}
 

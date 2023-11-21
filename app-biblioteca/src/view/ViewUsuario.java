@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -19,8 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import controller.UsuarioController;
 import helpers.UsuariosHelpers;
-import model.UsuariosDAO;
 
 public class ViewUsuario extends JInternalFrame{
 
@@ -36,20 +37,6 @@ public class ViewUsuario extends JInternalFrame{
 	private JPasswordField pwdSenha;
 	JFormattedTextField ftfTelefone;
 	private JTable tbConsulta;
-
-	/**
-	 * Launch the application.
-	 */
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { ViewUsuario frame = new ViewUsuario();
-	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
-	 * }
-	 */
-
-	/**
-	 * Create the frame.
-	 */
 	
 	@SuppressWarnings("serial")
 	public ViewUsuario() {
@@ -221,16 +208,58 @@ public class ViewUsuario extends JInternalFrame{
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnPesquisar.setBounds(353, 11, 100, 23);
+		btnPesquisar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				UsuarioController uctrl = new UsuarioController();
+				UsuariosHelpers uhelp = new UsuariosHelpers();
+				if(tfNome.getText()==""){
+					uctrl.pesquisaTodos(tbConsulta);
+				}else{
+					uctrl.pesquisaPorCampo(tfNome.getText(), tbConsulta);
+				}
+				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pwdSenha);	
+			}
+		});
 		getContentPane().add(btnPesquisar);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnAlterar.setBounds(353, 45, 100, 23);
+		btnAlterar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+					UsuarioController uctrl = new UsuarioController();
+					UsuariosHelpers uhelp = new UsuariosHelpers();
+					String senha= new String(pwdSenha.getPassword());
+					uctrl.alterar(tfNome.getText(),tfEndereco.getText(),tfCidade.getText(), tfBairro.getText(),
+						      Integer.parseInt(uhelp.cep(ftfCep.getText())),uhelp.telefone(ftfTelefone.getText()), 
+							  tfEmail.getText(),tfUsuario.getText(), senha, cboTipoOperador.getSelectedItem(),tfID.getText());
+					
+					uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pwdSenha);
+			}
+		});
 		getContentPane().add(btnAlterar);
 		
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 12));
 		btnExcluir.setBounds(353, 79, 100, 23);
+		btnExcluir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+					UsuarioController uctrl = new UsuarioController();
+					UsuariosHelpers uhelp = new UsuariosHelpers();
+					uctrl.excluir(Integer.parseInt(tfID.getText()));
+					
+					uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pwdSenha);	
+			}
+		});
 		getContentPane().add(btnExcluir);
 		
 		JButton btnIncluir = new JButton("Incluir");
@@ -243,20 +272,29 @@ public class ViewUsuario extends JInternalFrame{
 				// TODO Auto-generated method stub
 				
 				UsuariosHelpers uhelp = new UsuariosHelpers();
-				UsuariosDAO udao = new UsuariosDAO();
+				UsuarioController uctrl = new UsuarioController();
 				
 				String senha= new String(pwdSenha.getPassword());
-				
-				udao.incluir("INSERT INTO usuarios (nome,endereco,cidade,bairro,cep,telefone,email,usuario,pws,perfil) VALUES(?,?,?,?,?,?,?,?,?,?);", 
-														tfNome.getText(),tfEndereco.getText(),
-														tfCidade.getText(), tfBairro.getText(),
-														Integer.parseInt(uhelp.cep(ftfCep.getText())), 
-														uhelp.telefone(ftfTelefone.getText()), 
-														tfEmail.getText(),tfUsuario.getText(),
-														senha, cboTipoOperador.getSelectedItem());
-				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
+				if(tfNome.getText()==""){
+					JOptionPane.showMessageDialog(null,"");
+					if(tfEndereco.getText()==""){
+					JOptionPane.showMessageDialog(null,"");
+						if(tfCidade.getText().length()==0){
+						JOptionPane.showMessageDialog(null,"");
+							if(tfBairro.getText().length()==0){
+							JOptionPane.showMessageDialog(null,"");
+								
+								uctrl.incluir(tfNome.getText(),tfEndereco.getText(),tfCidade.getText(), tfBairro.getText(),
+										      Integer.parseInt(uhelp.cep(ftfCep.getText())),uhelp.telefone(ftfTelefone.getText()), 
+											  tfEmail.getText(),tfUsuario.getText(), senha, cboTipoOperador.getSelectedItem());
+											  
+								uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
+							
+						}
+					}
+				}
 			}
-		});
+		}});
 		getContentPane().add(btnIncluir);
 		
 		JButton btnCancelar = new JButton("Cancelar");

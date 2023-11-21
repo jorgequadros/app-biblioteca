@@ -8,13 +8,13 @@ public class Pessoa {
 	private String cidade;
 	private String bairro;
 	private int cep;
-	private int telefone;
+	private String telefone;
 	private String email;
 	
 	public Pessoa() {}
 	
 	public Pessoa(String nome, String endereco, String cidade, 
-			String bairro, int cep, int telefone, String email) {
+			String bairro, int cep, String telefone, String email) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.cidade= cidade;
@@ -25,7 +25,7 @@ public class Pessoa {
 	}
 	
 	public Pessoa(int id, String nome, String endereco, String cidade, 
-			String bairro, int cep, int telefone, String email) {
+			String bairro, int cep, String telefone, String email) {
 		this.id = id;
 		this.nome = nome;
 		this.endereco = endereco;
@@ -84,11 +84,11 @@ public class Pessoa {
 		this.cep = cep;
 	}
 
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 

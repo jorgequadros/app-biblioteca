@@ -57,5 +57,9 @@ alter table livros add id_categoria mediumint;
 update livros set titulo='Treinameno Avan�ado em VBA', autor='Sandra teste01', id_categoria=1, assunto='Programa��o em excel e access
 Conceitos b�sicos e uso do edito VBA.', dtAquisicao=2012-01-01  where id=1;
 
-INSERT INTO usuario (nome,endereco,cidade,bairro,cep,telefone,email,user,perfil) VALUES("jorge quadros","rua quatro","canoas","olaria",92035014,"51998746321","jorge.quadros@gmail.com","jorge.quadros", "Administrador");
+INSERT INTO livros (titulo,assunto,id_categoria,dtAquisicao) VALUES("Treinameno Avan�ado em VBA","Programa��o em excel e access
+Conceitos b�sicos e uso do edito VBA.",1,2012-01-01);
+
+INSERT INTO categorias (descricao,obs) VALUES("Informática","Livros relacionados a Informática");
+
 INSERT INTO usuarios (nome,endereco,cidade,bairro,cep,telefone,email,usuario,pws,perfil) VALUES("Miriam Quadros","Rua um","Canoas","Olaria",92035014,"51998746321","miriam.souza@gmail.com","miriam.souza","12345","Operador")
