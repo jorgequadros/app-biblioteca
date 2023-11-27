@@ -21,7 +21,7 @@ import controller.CategoriasController;
 import helpers.CategoriaHelpers;
 
 @SuppressWarnings("serial")
-public class viewConsCategorias extends JInternalFrame{
+public class ViewConsCategorias extends JInternalFrame{
 	private JTextField tfDescricao;
 	private JTable tbConsulta;
 	private JTextField tfID;
@@ -43,7 +43,7 @@ public class viewConsCategorias extends JInternalFrame{
 	/**
 	 * Create the frame.
 	 */
-	public viewConsCategorias() {
+	public ViewConsCategorias() {
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(100, 100, 740, 210);

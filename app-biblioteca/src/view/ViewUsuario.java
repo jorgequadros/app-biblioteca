@@ -3,6 +3,8 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.ParseException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -203,6 +205,13 @@ public class ViewUsuario extends JInternalFrame{
 		tbConsulta.getColumnModel().getColumn(1).setPreferredWidth(208);
 		tbConsulta.getColumnModel().getColumn(2).setPreferredWidth(154);
 		tbConsulta.getColumnModel().getColumn(3).setPreferredWidth(134);
+		tbConsulta.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				//Boolean tabela =tbConsulta.isEditing();
+				//verificação posterior quais campos serão mostrados na tabela
+				
+			}
+		});
 		spTabela.setViewportView(tbConsulta);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");

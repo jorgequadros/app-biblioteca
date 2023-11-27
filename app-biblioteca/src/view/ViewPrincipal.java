@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class viewPrincipal {
+public class ViewPrincipal {
 
 	private JFrame frame;
 
@@ -21,7 +21,7 @@ public class viewPrincipal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					viewPrincipal window = new viewPrincipal();
+					ViewPrincipal window = new ViewPrincipal();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,7 +33,7 @@ public class viewPrincipal {
 	/**
 	 * Create the application.
 	 */
-	public viewPrincipal() {
+	public ViewPrincipal() {
 		initialize();
 	}
 
@@ -74,7 +74,7 @@ public class viewPrincipal {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							viewConsCategorias frame = new viewConsCategorias();
+							ViewConsCategorias frame = new ViewConsCategorias();
 							frame.setVisible(true);
 							desktop.add(frame);
 						} catch (Exception e) {
@@ -130,6 +130,22 @@ public class viewPrincipal {
 		menuBar.add(mnuMovimentacao);
 		
 		JMenuItem mnuItemEmprestimos = new JMenuItem("Emprestimos");
+		mnuItemEmprestimos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							ViewEmprestimo frame = new ViewEmprestimo();
+							frame.setVisible(true);
+							desktop.add(frame);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		mnuMovimentacao.add(mnuItemEmprestimos);
 	}
 }

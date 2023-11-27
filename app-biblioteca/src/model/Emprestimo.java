@@ -8,7 +8,7 @@ public class Emprestimo {
 	private int id_Livro;
 	private int id_usuario;
 	
-	public Emprestimo() {	}
+	public Emprestimo() {}
 
 	public int getId() {
 		return id;

@@ -38,19 +38,7 @@ public abstract class DAO {
 			indice++;
 		}
 	}
-	
-	public void close() throws FileNotFoundException, IOException {
-		
-		try {
-			getConexao().close();
-		} catch (SQLException e) {
-			// TODO: handle exception
-		}finally {
-			conexao = null;
-		}
-	}
-	
-		
+			
 	public int comandoSql(String sql, Object... atributos) {
 		// TODO Auto-generated method stub
 		
@@ -71,6 +59,17 @@ public abstract class DAO {
 		}
 		
 		return -1;
+	}
+	
+	public void close() throws FileNotFoundException, IOException {
+		
+		try {
+			getConexao().close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}finally {
+			conexao = null;
+		}
 	}
 	
 	public abstract List<?> pesquisa(String sql,String params);
