@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Categorias;
 import model.CategoriasDAO;
+import model.Emprestimo;
+import model.EmprestimoDAO;
 import model.InterfacesDAO;
 
 public class EmprestimoController implements InterfacesDAO{
@@ -12,17 +14,19 @@ public class EmprestimoController implements InterfacesDAO{
 	@Override
 	public void incluir(Object... campos) {
 		// TODO Auto-generated method stub
-		CategoriasDAO cdao = new CategoriasDAO();
-		cdao.comandoSql("INSERT INTO categorias (descricao, obs) values(?,?)", campos);
+		EmprestimoDAO edao = new EmprestimoDAO();
+		edao.comandoSql("INSERT INTO emprestimos (dt_retirada,dt_devolucao, id_livro,id_usuario) values(?,?,?,?)", campos);
 	}
 
 	@Override
 	public void alterar(Object... campos) {
 		// TODO Auto-generated method stub
-		CategoriasDAO c =new CategoriasDAO();
-		c.comandoSql("update categorias "
-				+ "set descricao=?, "
-				+ "obs=?"
+		EmprestimoDAO edao = new EmprestimoDAO();
+		edao.comandoSql("update emprestimos "
+				+ "set dt_retirada=?, "
+				+ "dt_devolucao=?,"
+				+ "id_livro=?,"
+				+ "id_usuario=?"
 				+ " where id=?;", campos);
 	}
 
@@ -30,7 +34,7 @@ public class EmprestimoController implements InterfacesDAO{
 	public void excluir(int id) {
 		// TODO Auto-generated method stub
 		CategoriasDAO c =new CategoriasDAO();
-		c.comandoSql("delete from categorias where id=?", id);
+		c.comandoSql("delete from emprestimos where id=?", id);
 	}
 
 	@Override
@@ -56,13 +60,13 @@ public class EmprestimoController implements InterfacesDAO{
 		// TODO Auto-generated method stub
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
-		CategoriasDAO cdao = new CategoriasDAO();
-		
-		for(Categorias c: cdao.pesquisaTodos("select * from categorias")) {
+		EmprestimoDAO edao = new EmprestimoDAO();
+		//Alterar para buscar por data
+		for(Emprestimo e: edao.pesquisaTodos("select * from emprestimo;")) {
 			modelo.addRow(new Object[] {
-					c.getId(),
-					c.getDescricao(),
-					c.getObs()
+					e.getId(),
+					e.getLivros().getTitulo(),
+					e.getUsuarios().getNome()
 					});
 			
 		}

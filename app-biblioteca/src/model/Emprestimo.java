@@ -1,12 +1,16 @@
 package model;
 
+import java.sql.Date;
+
 public class Emprestimo {
 
 	private int id;
-	private String dtEmprestimo;
-	private String dtDevolucao;
+	private Date dtEmprestimo;
+	private Date dtDevolucao;
 	private int id_Livro;
+	private Livros livros;
 	private int id_usuario;
+	private Usuario usuarios;
 	
 	public Emprestimo() {}
 
@@ -17,20 +21,36 @@ public class Emprestimo {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public Livros getLivros() {
+		return livros;
+	}
 
-	public String getDtEmprestimo() {
+	public void setLivros(Livros livros) {
+		this.livros = livros;
+	}
+
+	public Usuario getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Usuario usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Date getDtEmprestimo() {
 		return dtEmprestimo;
 	}
 
-	public void setDtEmprestimo(String dtEmprestimo) {
+	public void setDtEmprestimo(Date dtEmprestimo) {
 		this.dtEmprestimo = dtEmprestimo;
 	}
 
-	public String getDtDevolucao() {
+	public Date getDtDevolucao() {
 		return dtDevolucao;
 	}
 
-	public void setDtDevolucao(String dtDevolucao) {
+	public void setDtDevolucao(Date dtDevolucao) {
 		this.dtDevolucao = dtDevolucao;
 	}
 

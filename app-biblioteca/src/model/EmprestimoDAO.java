@@ -12,9 +12,6 @@ public class EmprestimoDAO extends DAO{
 	@Override
 	public List<Emprestimo> pesquisa(String sql, String params) {
 		// TODO Auto-generated method stub
-		
-			// TODO Auto-generated method stub
-			
 			List<Emprestimo> emprestimo = new ArrayList<>();
 			try {
 				PreparedStatement stmt = getConexao().prepareStatement(sql);

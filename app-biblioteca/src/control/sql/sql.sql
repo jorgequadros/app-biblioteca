@@ -1,5 +1,5 @@
 create table categorias(
-	id mediumint auto_increment not null,
+	id int auto_increment not null,
     descricao varchar(50) not null,
     obs varchar(100) not null,
     primary key(id),
@@ -7,9 +7,9 @@ create table categorias(
 );
 
 create table livros(
-	id mediumint auto_increment not null,
+	id int auto_increment not null,
     titulo varchar(50) not null,
-    id_categoria mediumint not null,
+    id_categoria int not null,
     assunto varchar(200),
     dtAquisicao date,
     primary key(id),
@@ -18,7 +18,7 @@ create table livros(
 );
 
 create table usuarios (
-	id mediumint auto_increment not null,
+	id int auto_increment not null,
     nome varchar(50) not null,
     endereco varchar(50) not null,
     cidade varchar(50) not null,
@@ -26,7 +26,7 @@ create table usuarios (
     cep int not null,
     telefone varchar(11) not null,
     email varchar(20) not null,
-    user varchar(20),
+    usuario varchar(20),
     pws varchar(20),
     perfil varchar(20),
     primary key(ID) ,
@@ -35,8 +35,8 @@ create table usuarios (
 
 create table emprestimos(
 	id int auto_increment not null,
-    id_usuario mediumint not null,
-    id_livro mediumint not null,
+    id_usuario int not null,
+    id_livro int not null,
     dt_retirada date not null,
     dt_devolucao date not null,
     foreign key(id_usuario) references usuarios(id),
