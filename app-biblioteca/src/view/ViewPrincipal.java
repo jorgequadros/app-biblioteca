@@ -107,7 +107,7 @@ public class ViewPrincipal {
 		JMenuItem mnuItemUsuario = new JMenuItem("Usuários");
 		mnuItemUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -132,7 +132,7 @@ public class ViewPrincipal {
 		JMenuItem mnuItemEmprestimos = new JMenuItem("Emprestimos");
 		mnuItemEmprestimos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {

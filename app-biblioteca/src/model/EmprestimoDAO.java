@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ public class EmprestimoDAO extends DAO{
 
 	@Override
 	public List<Emprestimo> pesquisa(String sql, String params) {
-		// TODO Auto-generated method stub
+		
 			List<Emprestimo> emprestimo = new ArrayList<>();
 			try {
 				PreparedStatement stmt = getConexao().prepareStatement(sql);
@@ -20,16 +21,17 @@ public class EmprestimoDAO extends DAO{
 				
 				while (resultado.next()) {
 					int id = resultado.getInt("id");
-					String descricao = resultado.getString("descricao");
-					String obs = resultado.getString("obs");
-					emprestimo.add(new Emprestimo());
+					int id_usuario = resultado.getInt("id_usuario");
+					int id_livro = resultado.getInt("id_livro");
+					Date devolucao = resultado.getDate("dt_devolucao");
+					emprestimo.add(new Emprestimo(id,devolucao, id_usuario,id_livro));
 				}
 				
 				stmt.close();
 				getConexao().close();
 				
 			} catch (IOException | SQLException e) {
-				// TODO Auto-generated catch block
+				
 				System.out.println(e);
 			} 
 			
@@ -38,7 +40,7 @@ public class EmprestimoDAO extends DAO{
 
 	@Override
 	public List<Emprestimo> pesquisaTodos(String sql) {
-		// TODO Auto-generated method stub
+		
 		List<Emprestimo> emprestimo = new ArrayList<>();
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql);
@@ -46,16 +48,17 @@ public class EmprestimoDAO extends DAO{
 			
 			while (resultado.next()) {
 				int id = resultado.getInt("id");
-				String descricao = resultado.getString("descricao");
-				String obs = resultado.getString("obs");
-				emprestimo.add(new Emprestimo());
+				int id_usuario = resultado.getInt("id_usuario");
+				int id_livro = resultado.getInt("id_livro");
+				Date devolucao = resultado.getDate("dt_devolucao");
+				emprestimo.add(new Emprestimo(id,devolucao, id_usuario,id_livro));
 			}
 			
 			stmt.close();
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		} 
 		

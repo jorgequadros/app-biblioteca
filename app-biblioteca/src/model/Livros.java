@@ -10,7 +10,7 @@ public class Livros {
 	private Categorias cat;
 	
 	public Livros(int id, String titulo, String assunto, String autor, int id_categoria, String descricao, String obs, String dtAquisicao2) {
-		// TODO Auto-generated constructor stub
+		
 		this.id = id;
 		this.titulo =titulo;
 		this.assunto=assunto;
@@ -22,6 +22,14 @@ public class Livros {
 		this.cat.setObs(obs);
 	}
 
+	public Livros(int id, String titulo, String assunto, String autor, String dtAquisicao2) {
+		
+		this.id = id;
+		this.titulo =titulo;
+		this.assunto=assunto;
+		this.dtAquisicao=dtAquisicao2;
+		this.autor= autor;
+	}
 	
 	public Categorias getCat() {
 		return cat;
@@ -71,6 +79,11 @@ public class Livros {
 
 	public void setAutor(String autor) {
 		this.autor = autor;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getTitulo();
 	}
 
 }

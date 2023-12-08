@@ -13,14 +13,14 @@ public class EmprestimoController implements InterfacesDAO{
 
 	@Override
 	public void incluir(Object... campos) {
-		// TODO Auto-generated method stub
+		
 		EmprestimoDAO edao = new EmprestimoDAO();
 		edao.comandoSql("INSERT INTO emprestimos (dt_retirada,dt_devolucao, id_livro,id_usuario) values(?,?,?,?)", campos);
 	}
 
 	@Override
 	public void alterar(Object... campos) {
-		// TODO Auto-generated method stub
+		
 		EmprestimoDAO edao = new EmprestimoDAO();
 		edao.comandoSql("update emprestimos "
 				+ "set dt_retirada=?, "
@@ -32,14 +32,14 @@ public class EmprestimoController implements InterfacesDAO{
 
 	@Override
 	public void excluir(int id) {
-		// TODO Auto-generated method stub
+		
 		CategoriasDAO c =new CategoriasDAO();
 		c.comandoSql("delete from emprestimos where id=?", id);
 	}
 
 	@Override
 	public void pesquisaPorCampo(String consulta, JTable tbConsulta) {
-		// TODO Auto-generated method stub
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
@@ -57,7 +57,7 @@ public class EmprestimoController implements InterfacesDAO{
 
 	@Override
 	public void pesquisaTodos(JTable tbConsulta) {
-		// TODO Auto-generated method stub
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		EmprestimoDAO edao = new EmprestimoDAO();

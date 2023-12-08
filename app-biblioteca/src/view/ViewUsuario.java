@@ -120,7 +120,7 @@ public class ViewUsuario extends JInternalFrame{
 			ftfCep.setBounds(10, 122, 70, 20);
 			pnFormCadastro.add(ftfCep);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			System.out.println(e);
 		}
 		
@@ -135,7 +135,7 @@ public class ViewUsuario extends JInternalFrame{
 			ftfTelefone.setBounds(84, 122, 80, 20);
 			pnFormCadastro.add(ftfTelefone);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -221,7 +221,7 @@ public class ViewUsuario extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			
 				UsuarioController uctrl = new UsuarioController();
 				UsuariosHelpers uhelp = new UsuariosHelpers();
 				if(tfNome.getText()==""){
@@ -241,7 +241,7 @@ public class ViewUsuario extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 					UsuarioController uctrl = new UsuarioController();
 					UsuariosHelpers uhelp = new UsuariosHelpers();
 					String senha= new String(pwdSenha.getPassword());
@@ -261,7 +261,7 @@ public class ViewUsuario extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 					UsuarioController uctrl = new UsuarioController();
 					UsuariosHelpers uhelp = new UsuariosHelpers();
 					uctrl.excluir(Integer.parseInt(tfID.getText()));
@@ -278,7 +278,6 @@ public class ViewUsuario extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				
 				UsuariosHelpers uhelp = new UsuariosHelpers();
 				UsuarioController uctrl = new UsuarioController();
@@ -313,7 +312,8 @@ public class ViewUsuario extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				// 
+
 				UsuariosHelpers uhelp = new UsuariosHelpers();
 				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
 			}

@@ -37,7 +37,7 @@ public class UsuariosDAO extends DAO{
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		} 
 		
@@ -73,7 +73,7 @@ public class UsuariosDAO extends DAO{
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		} 
 		

@@ -1,17 +1,29 @@
 package view;
 
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLayeredPane;
-import javax.swing.JButton;
-import java.awt.Font;
+
+import controller.LivrosController;
+import controller.UsuarioController;
+import model.Livros;
+import model.Usuario;
 
 public class ViewEmprestimo extends JInternalFrame {
 
@@ -22,13 +34,18 @@ public class ViewEmprestimo extends JInternalFrame {
 	private JTextField tfLivro;
 	private JTable tbConsulta;
 	private JTextField tfId;
-
 	
+	private JList<Livros> lsLivro; 
+	private JList<Usuario> lsUsuario;
+	
+	@SuppressWarnings("deprecation")
 	public ViewEmprestimo() {
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(100, 100, 910, 312);
+		setBounds(50, 50, 910, 312);
 		getContentPane().setLayout(null);
+		
+		Date dataAtual = new Date();
 		
 		JPanel pnDadosEmprestimo = new JPanel();
 		pnDadosEmprestimo.setBounds(10, 11, 367, 260);
@@ -42,6 +59,10 @@ public class ViewEmprestimo extends JInternalFrame {
 		
 		JFormattedTextField ftfDataEmprestimo = new JFormattedTextField();
 		ftfDataEmprestimo.setEditable(false);
+	
+		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+		String strDate = String.valueOf(formataData.format(dataAtual));
+		ftfDataEmprestimo.setText(String.valueOf(strDate));
 		ftfDataEmprestimo.setBounds(38, 25, 148, 20);
 		pnDadosEmprestimo.add(ftfDataEmprestimo);
 		
@@ -50,17 +71,40 @@ public class ViewEmprestimo extends JInternalFrame {
 		lbDataEmprestimo.setBounds(38, 11, 120, 14);
 		pnDadosEmprestimo.add(lbDataEmprestimo);
 		
+		lsUsuario = new JList<Usuario>();
+		lsUsuario.setVisible(false);
+		lsUsuario.setVisibleRowCount(3);
+		lsUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				super.mouseClicked(e);
+				
+				tfId_Usuario.setText(String.valueOf(lsUsuario.getSelectedValue().getId()));
+				tfUsuario.setText(lsUsuario.getSelectedValue().getNome());
+				lsUsuario.setVisible(false);
+			}
+		});
+		lsUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lsUsuario.setBounds(222, 47, 139, 31);
+		pnDadosEmprestimo.add(lsUsuario);
+		
 		tfUsuario = new JTextField();
 		tfUsuario.setBounds(219, 25, 142, 20);
+		tfUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				super.keyReleased(e);
+				
+				lsUsuario.setVisible(true);
+				UsuarioController uctrl = new UsuarioController();
+				uctrl.carregaLista(lsUsuario,tfUsuario.getText());
+			}
+		});
+
 		pnDadosEmprestimo.add(tfUsuario);
 		tfUsuario.setColumns(10);
-		
-		JScrollPane spnListUsuario = new JScrollPane();
-		spnListUsuario.setBounds(219, 46, 138, 41);
-		pnDadosEmprestimo.add(spnListUsuario);
-		
-		JList list = new JList();
-		spnListUsuario.setViewportView(list);
 		
 		JLabel lbId_Usuario = new JLabel("ID");
 		lbId_Usuario.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -69,6 +113,7 @@ public class ViewEmprestimo extends JInternalFrame {
 		
 		tfId_Usuario = new JTextField();
 		tfId_Usuario.setBounds(192, 25, 25, 20);
+		tfId_Usuario.setEditable(false);
 		pnDadosEmprestimo.add(tfId_Usuario);
 		tfId_Usuario.setColumns(10);
 		
@@ -89,23 +134,47 @@ public class ViewEmprestimo extends JInternalFrame {
 		
 		tfId_Livros = new JTextField();
 		tfId_Livros.setBounds(8, 67, 25, 20);
+		tfId_Livros.setEditable(false);
 		pnDadosEmprestimo.add(tfId_Livros);
 		tfId_Livros.setColumns(10);
 		
+		lsLivro = new JList<Livros>();
+		lsLivro.setVisible(false);
+		lsLivro.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lsLivro.setVisibleRowCount(3);
+		lsLivro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				super.mouseClicked(e);
+				
+				tfId_Livros.setText(String.valueOf(lsLivro.getSelectedValue().getId()));
+				tfLivro.setText(lsLivro.getSelectedValue().getTitulo());
+				lsLivro.setVisible(false);
+			}
+		});
+		lsLivro.setBounds(37, 90, 168, 31);
+		pnDadosEmprestimo.add(lsLivro);
+		
 		tfLivro = new JTextField();
 		tfLivro.setBounds(36, 67, 169, 20);
+	
+		tfLivro.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+			
+				super.keyReleased(e);
+				lsLivro.setVisible(true);
+				LivrosController lctrl = new LivrosController();
+				lctrl.carregaLista(lsLivro,tfLivro.getText());
+			}
+		});
 		pnDadosEmprestimo.add(tfLivro);
 		tfLivro.setColumns(10);
 		
-		JScrollPane spnListaLivros = new JScrollPane();
-		spnListaLivros.setBounds(38, 88, 167, 57);
-		pnDadosEmprestimo.add(spnListaLivros);
-		
-		JList lsLivros = new JList();
-		spnListaLivros.setViewportView(lsLivros);
-		
 		tfId = new JTextField();
 		tfId.setBounds(8, 25, 25, 20);
+		tfId.setEditable(false);
 		pnDadosEmprestimo.add(tfId);
 		tfId.setColumns(10);
 		
@@ -113,6 +182,8 @@ public class ViewEmprestimo extends JInternalFrame {
 		ftfDataDevolucao.setFont(new Font("Tahoma", Font.BOLD, 14));
 		ftfDataDevolucao.setEditable(false);
 		ftfDataDevolucao.setBounds(10, 171, 148, 31);
+		int dataDevolucao = dataAtual.getDate()+10;
+		ftfDataDevolucao.getText(String.valueOf();
 		pnDadosEmprestimo.add(ftfDataDevolucao);
 		
 		JLabel lbDataDevolucao = new JLabel("Data Devolução");
@@ -165,4 +236,6 @@ public class ViewEmprestimo extends JInternalFrame {
 		spTabela.setViewportView(tbConsulta);
 
 	}
+
+
 }

@@ -36,7 +36,7 @@ public class CategoriaComboboxModel extends AbstractListModel implements ComboBo
 
 	@Override
 	public Object getSelectedItem() {
-		// TODO Auto-generated method stub
+		
 		return this.categoriaSelecionada;
 	}
 	

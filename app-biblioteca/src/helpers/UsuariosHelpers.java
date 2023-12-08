@@ -45,7 +45,7 @@ public class UsuariosHelpers {
 			return  new SimpleDateFormat("dd-MM-yyyy").parse(convertData) ;
 		
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		}
 		return null;

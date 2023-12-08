@@ -13,7 +13,7 @@ public class LivrosDAO extends DAO{
 
 	@Override
 	public List<Livros> pesquisa(String sql, String params) {
-		// TODO Auto-generated method stub
+		
 		List<Livros> livros = new ArrayList<>();
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql);
@@ -37,7 +37,7 @@ public class LivrosDAO extends DAO{
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		
@@ -47,7 +47,7 @@ public class LivrosDAO extends DAO{
 
 	@Override
 	public List<Livros> pesquisaTodos(String sql) {
-		// TODO Auto-generated method stub
+		
 		List<Livros> livros = new ArrayList<>();
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql);
@@ -70,7 +70,7 @@ public class LivrosDAO extends DAO{
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		

@@ -13,6 +13,7 @@ public class Emprestimo {
 	private Usuario usuarios;
 	
 	public Emprestimo() {}
+	public Emprestimo(int id, Date dtDevolucao, int id_Livro, int id_usuario) {}
 
 	public int getId() {
 		return id;

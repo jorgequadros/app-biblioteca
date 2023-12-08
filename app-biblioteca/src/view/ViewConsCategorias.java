@@ -156,7 +156,7 @@ public class ViewConsCategorias extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				CategoriaHelpers chelp = new CategoriaHelpers();
 				chelp.limpaCampos(tfDescricao,tfID, taObs);
 			}
@@ -201,7 +201,7 @@ public class ViewConsCategorias extends JInternalFrame{
 					
 					
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					new Throwable(e1);
 				}
 			}

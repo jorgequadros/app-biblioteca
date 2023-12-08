@@ -18,29 +18,13 @@ public abstract class DAO {
 				return conexao;
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
+			
 		}
 		conexao = ConexaoBD.getConnection();
 		return conexao;
 	}
 	
-	protected void adicionarAtributos(PreparedStatement Stmt, 
-			Object[] atributos) throws SQLException{
-		int indice = 1;
-		for(Object atributo: atributos) {
-			
-			if(atributo instanceof String) {
-				Stmt.setString(indice, (String) atributo);
-			}else if(atributo instanceof Integer) {
-				Stmt.setInt(indice, (Integer) atributo);
-			}
-		
-			indice++;
-		}
-	}
-			
 	public int comandoSql(String sql, Object... atributos) {
-		// TODO Auto-generated method stub
 		
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -54,11 +38,26 @@ public abstract class DAO {
 			
 			this.close();
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+			
 			System.out.println(e);
 		}
 		
 		return -1;
+	}
+	
+	protected void adicionarAtributos(PreparedStatement Stmt, Object[] atributos) throws SQLException{
+		
+		int indice = 1;
+		for(Object atributo: atributos) {
+			
+			if(atributo instanceof String) {
+				Stmt.setString(indice, (String) atributo);
+			}else if(atributo instanceof Integer) {
+				Stmt.setInt(indice, (Integer) atributo);
+			}
+		
+			indice++;
+		}
 	}
 	
 	public void close() throws FileNotFoundException, IOException {
@@ -66,7 +65,7 @@ public abstract class DAO {
 		try {
 			getConexao().close();
 		} catch (SQLException e) {
-			// TODO: handle exception
+			
 		}finally {
 			conexao = null;
 		}

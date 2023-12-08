@@ -91,7 +91,7 @@ public class ViewConsLivros extends JInternalFrame {
 		try {
 			tfDataAquisicao = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		tfDataAquisicao.setBounds(10, 116, 83, 20);
@@ -131,7 +131,6 @@ public class ViewConsLivros extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				
 					if(tfTitulo.getText().length()>0) {
 						LivrosController lctrl = new LivrosController();
@@ -181,7 +180,7 @@ public class ViewConsLivros extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				if(tfId.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
 				}else {
@@ -201,8 +200,7 @@ public class ViewConsLivros extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+								
 				Categorias c = (Categorias) cboCategorias.getSelectedItem();
 				
 				if(tfAutor.getText().length()==0){
@@ -230,7 +228,7 @@ public class ViewConsLivros extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			
 				LivrosHelpers lhelp = new LivrosHelpers();
 				lhelp.limpaCampos(tfAutor,tfId,tfTitulo,tfDataAquisicao,taAssunto);
 			}
@@ -265,7 +263,7 @@ public class ViewConsLivros extends JInternalFrame {
 					} 
 					
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					new Throwable(e1);
 				}
 			}

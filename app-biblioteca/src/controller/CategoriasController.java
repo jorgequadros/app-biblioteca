@@ -11,14 +11,14 @@ public class CategoriasController implements InterfacesDAO{
 
 	@Override
 	public void incluir(Object... campos) {
-		// TODO Auto-generated method stub
+		
 		CategoriasDAO cdao = new CategoriasDAO();
 		cdao.comandoSql("INSERT INTO categorias (descricao, obs) values(?,?)", campos);
 	}
 
 	@Override
 	public void alterar(Object... campos) {
-		// TODO Auto-generated method stub
+		
 		CategoriasDAO c =new CategoriasDAO();
 		c.comandoSql("update categorias "
 				+ "set descricao=?, "
@@ -28,7 +28,7 @@ public class CategoriasController implements InterfacesDAO{
 
 	@Override
 	public void excluir(int id) {
-		// TODO Auto-generated method stub
+		
 		CategoriasDAO c =new CategoriasDAO();
 		c.comandoSql("delete from categorias where id=?", id);
 		
@@ -36,7 +36,7 @@ public class CategoriasController implements InterfacesDAO{
 
 	@Override
 	public void pesquisaTodos(JTable tbConsulta) {
-		// TODO Auto-generated method stub
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();
@@ -52,7 +52,7 @@ public class CategoriasController implements InterfacesDAO{
 	}
 
 	public void pesquisaPorCampo(String consulta, JTable tbConsulta) {
-		// TODO Auto-generated method stub
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		CategoriasDAO cdao = new CategoriasDAO();

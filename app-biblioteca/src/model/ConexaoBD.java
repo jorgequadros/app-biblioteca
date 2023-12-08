@@ -24,10 +24,10 @@ public class ConexaoBD {
 
 				return DriverManager.getConnection(dbUrl,dbUser,dbPwd);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 						

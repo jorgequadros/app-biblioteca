@@ -11,8 +11,7 @@ public class CategoriasDAO extends DAO{
 	
 	@Override
 	public List<Categorias> pesquisa(String sql, String params) {
-		// TODO Auto-generated method stub
-		
+			
 		List<Categorias> categorias = new ArrayList<>();
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql);
@@ -30,7 +29,6 @@ public class CategoriasDAO extends DAO{
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e);
 		} 
 		
@@ -39,7 +37,7 @@ public class CategoriasDAO extends DAO{
 
 	@Override
 	public List<Categorias> pesquisaTodos(String sql) {
-		// TODO Auto-generated method stub
+		
 		List<Categorias> categorias = new ArrayList<>();
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql);
@@ -56,7 +54,7 @@ public class CategoriasDAO extends DAO{
 			getConexao().close();
 			
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		
@@ -76,7 +74,6 @@ public class CategoriasDAO extends DAO{
 			}
 			return c.getId();
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
 		return 0; 

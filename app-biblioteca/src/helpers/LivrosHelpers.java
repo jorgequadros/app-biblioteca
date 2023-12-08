@@ -39,7 +39,7 @@ public class LivrosHelpers {
 		try {
 			return  new SimpleDateFormat("dd-MM-yyyy").parse(convertData) ;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;

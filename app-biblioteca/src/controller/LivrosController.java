@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,14 +14,14 @@ public class LivrosController implements InterfacesDAO{
 
 	@Override
 	public void incluir(Object... campos) {
-		// TODO Auto-generated method stub
+		
 		LivrosDAO ldao = new LivrosDAO();
-		ldao.comandoSql("INSERT INTO livros (titulo, id_categoria, autor, dtAquisicao, assunto) values(?,?,?,?,?)", campos);
+		ldao.comandoSql("INSERT INTO emprestimo (dt_devolucao,dt_retirada,id_livro,id_usuario) values(?,?,?,?)", campos);
 	}
 
 	@Override
 	public void alterar(Object... campos) {
-		// TODO Auto-generated method stub
+		
 		LivrosDAO l =new LivrosDAO();
 		l.comandoSql("update livros "
 				+ "set titulo=?, "
@@ -32,19 +34,19 @@ public class LivrosController implements InterfacesDAO{
 
 	@Override
 	public void excluir(int id) {
-		// TODO Auto-generated method stub
+		
 		CategoriasDAO c =new CategoriasDAO();
 		c.comandoSql("delete from livros where id=?", id);
 	}
 
 	@Override
 	public void pesquisaPorCampo(String consulta, JTable tbConsulta) {
-		// TODO Auto-generated method stub
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		LivrosDAO ldao = new LivrosDAO();
 		String novaConsulta = consulta+"%";
-		for(Livros l: ldao.pesquisa("select * from livros where titulo like ?",novaConsulta)) {
+		for(Livros l: ldao.pesquisa("select * from livros AS l, Categorias As c where c.id=l.id_categoria and titulo like ?",novaConsulta)) {
 			modelo.addRow(new Object[] {
 					l.getId(),
 					l.getTitulo(),
@@ -61,7 +63,7 @@ public class LivrosController implements InterfacesDAO{
 
 	@Override
 	public void pesquisaTodos(JTable tbConsulta) {
-		// TODO Auto-generated method stub
+		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		LivrosDAO ldao = new LivrosDAO();
@@ -83,6 +85,17 @@ public class LivrosController implements InterfacesDAO{
 	public int buscaIdCategoria(Object Valor) {
 		CategoriasDAO cdao = new  CategoriasDAO();
 		return cdao.buscaId(Valor);
+	}
+	
+	public void carregaLista(JList<Livros> lsUsuario,String consulta) {
+		DefaultListModel<Livros> modelo = new DefaultListModel<Livros>();
+		
+		LivrosDAO ldao =new LivrosDAO();
+		String novaConsulta = consulta+"%";
+		for (Livros l : ldao.pesquisa("select * from livros AS l, Categorias As c where c.id=l.id_categoria and titulo like ?", novaConsulta)) {
+			modelo.addElement(l);
+		}
+		lsUsuario.setModel(modelo);
 	}
 
 }

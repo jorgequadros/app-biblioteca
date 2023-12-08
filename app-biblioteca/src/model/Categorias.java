@@ -46,7 +46,6 @@ public class Categorias {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return getDescricao();
 	}
 }
