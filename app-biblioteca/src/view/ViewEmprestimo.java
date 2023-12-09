@@ -1,12 +1,16 @@
 package view;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -15,37 +19,38 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import controller.EmprestimoController;
 import controller.LivrosController;
 import controller.UsuarioController;
+import helpers.EmprestimoHelpers;
 import model.Livros;
 import model.Usuario;
 
 public class ViewEmprestimo extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField tfUsuario;
-	private JTextField tfId_Usuario;
-	private JTextField tfId_Livros;
-	private JTextField tfLivro;
-	private JTable tbConsulta;
-	private JTextField tfId;
+	private JTextField tfId, tfUsuario, tfId_Usuario, tfId_Livros, tfLivro;
+	private JFormattedTextField ftfDataEmprestimo, ftfDataDevolucao;
 	
+	private JTable tbConsulta;
+
 	private JList<Livros> lsLivro; 
 	private JList<Usuario> lsUsuario;
 	
-	@SuppressWarnings("deprecation")
 	public ViewEmprestimo() {
+		setTitle("Emprestimo de Livros");
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(50, 50, 910, 312);
 		getContentPane().setLayout(null);
 		
-		Date dataAtual = new Date();
+		GregorianCalendar vencimento = new GregorianCalendar();
 		
 		JPanel pnDadosEmprestimo = new JPanel();
 		pnDadosEmprestimo.setBounds(10, 11, 367, 260);
@@ -57,13 +62,13 @@ public class ViewEmprestimo extends JInternalFrame {
 		lbId.setBounds(10, 11, 25, 14);
 		pnDadosEmprestimo.add(lbId);
 		
-		JFormattedTextField ftfDataEmprestimo = new JFormattedTextField();
+		ftfDataEmprestimo = new JFormattedTextField();
 		ftfDataEmprestimo.setEditable(false);
 	
 		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
-		String strDate = String.valueOf(formataData.format(dataAtual));
+		String strDate = String.valueOf(formataData.format(vencimento.getTime()));
 		ftfDataEmprestimo.setText(String.valueOf(strDate));
-		ftfDataEmprestimo.setBounds(38, 25, 148, 20);
+		ftfDataEmprestimo.setBounds(38, 25, 120, 20);
 		pnDadosEmprestimo.add(ftfDataEmprestimo);
 		
 		JLabel lbDataEmprestimo = new JLabel("Data Emprestimo");
@@ -124,16 +129,16 @@ public class ViewEmprestimo extends JInternalFrame {
 		
 		JLabel lbId_Livro = new JLabel("ID");
 		lbId_Livro.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbId_Livro.setBounds(10, 53, 25, 14);
+		lbId_Livro.setBounds(10, 64, 25, 14);
 		pnDadosEmprestimo.add(lbId_Livro);
 		
 		JLabel lbLivros = new JLabel("Livros");
 		lbLivros.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbLivros.setBounds(43, 52, 46, 14);
+		lbLivros.setBounds(38, 64, 46, 14);
 		pnDadosEmprestimo.add(lbLivros);
 		
 		tfId_Livros = new JTextField();
-		tfId_Livros.setBounds(8, 67, 25, 20);
+		tfId_Livros.setBounds(10, 81, 25, 20);
 		tfId_Livros.setEditable(false);
 		pnDadosEmprestimo.add(tfId_Livros);
 		tfId_Livros.setColumns(10);
@@ -153,11 +158,11 @@ public class ViewEmprestimo extends JInternalFrame {
 				lsLivro.setVisible(false);
 			}
 		});
-		lsLivro.setBounds(37, 90, 168, 31);
+		lsLivro.setBounds(38, 102, 180, 31);
 		pnDadosEmprestimo.add(lsLivro);
 		
 		tfLivro = new JTextField();
-		tfLivro.setBounds(36, 67, 169, 20);
+		tfLivro.setBounds(36, 81, 181, 20);
 	
 		tfLivro.addKeyListener(new KeyAdapter() {
 			@Override
@@ -178,43 +183,84 @@ public class ViewEmprestimo extends JInternalFrame {
 		pnDadosEmprestimo.add(tfId);
 		tfId.setColumns(10);
 		
-		JFormattedTextField ftfDataDevolucao = new JFormattedTextField();
+		ftfDataDevolucao = new JFormattedTextField();
 		ftfDataDevolucao.setFont(new Font("Tahoma", Font.BOLD, 14));
 		ftfDataDevolucao.setEditable(false);
-		ftfDataDevolucao.setBounds(10, 171, 148, 31);
-		int dataDevolucao = dataAtual.getDate()+10;
-		ftfDataDevolucao.getText(String.valueOf();
+		ftfDataDevolucao.setBounds(82, 184, 111, 31);
+		
+		SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+		vencimento.add(Calendar.DAY_OF_MONTH, 10);
+		String strDate1 = data.format(vencimento.getTime());
+		ftfDataDevolucao.setText(String.valueOf(strDate1));
 		pnDadosEmprestimo.add(ftfDataDevolucao);
+		
+		JSpinner spnDias = new JSpinner();
+		spnDias.setValue(10);
+		spnDias.setEnabled(false);
+		spnDias.setFont(new Font("Tahoma", Font.BOLD, 12));
+		spnDias.setBounds(10, 186, 62, 31);
+		
+		pnDadosEmprestimo.add(spnDias);
 		
 		JLabel lbDataDevolucao = new JLabel("Data Devolução");
 		lbDataDevolucao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbDataDevolucao.setBounds(10, 156, 140, 14);
+		lbDataDevolucao.setBounds(82, 169, 111, 14);
 		pnDadosEmprestimo.add(lbDataDevolucao);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnPesquisar.setBounds(272, 98, 89, 23);
+		btnPesquisar.setBounds(250, 98, 111, 23);
 		pnDadosEmprestimo.add(btnPesquisar);
 		
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAlterar.setBounds(272, 132, 89, 23);
+		btnAlterar.setBounds(250, 132, 111, 23);
 		pnDadosEmprestimo.add(btnAlterar);
 		
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnExcluir.setBounds(272, 161, 89, 23);
+		btnExcluir.setBounds(250, 161, 111, 23);
 		pnDadosEmprestimo.add(btnExcluir);
 		
 		JButton btnIncluir = new JButton("Incluir");
 		btnIncluir.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnIncluir.setBounds(272, 192, 89, 23);
+		btnIncluir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				EmprestimoController ectrl = new EmprestimoController();
+				EmprestimoHelpers ehelp = new EmprestimoHelpers();
+				try {
+					ectrl.incluir(tfUsuario, tfId_Usuario, tfId_Livros, tfLivro,ehelp.convertDataBD(ftfDataEmprestimo),ehelp.convertDataBD(ftfDataDevolucao));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				ehelp.limpaCampos(tfId, tfUsuario, tfId_Usuario, tfId_Livros, tfLivro, ftfDataEmprestimo, ftfDataDevolucao);
+			}
+		});
+		btnIncluir.setBounds(250, 192, 111, 23);
 		pnDadosEmprestimo.add(btnIncluir);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCancelar.setBounds(272, 226, 89, 23);
+		btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				EmprestimoHelpers ehelp = new EmprestimoHelpers();
+				ehelp.limpaCampos(tfId, tfUsuario, tfId_Usuario, tfId_Livros, tfLivro, ftfDataEmprestimo, ftfDataDevolucao);
+			}
+		});
+		btnCancelar.setBounds(250, 226, 111, 23);
 		pnDadosEmprestimo.add(btnCancelar);
+		
+		JLabel lbDias = new JLabel("N° Dias");
+		lbDias.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbDias.setBounds(10, 166, 46, 14);
+		pnDadosEmprestimo.add(lbDias);
 		
 		JPanel pnTabela = new JPanel();
 		pnTabela.setBounds(386, 11, 498, 260);
@@ -230,12 +276,10 @@ public class ViewEmprestimo extends JInternalFrame {
 			new Object[][] {
 			},
 			new String[] {
-					"ID", "Usu\u00E1rio", "Livros", "Data Devolu\u00E7\u00E3o"
+					"ID", "Data Emprestimo", "Data Devolução", "ID Usuário"
 			}
 		));
 		spTabela.setViewportView(tbConsulta);
 
 	}
-
-
 }

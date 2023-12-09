@@ -25,7 +25,7 @@ public abstract class DAO {
 	}
 	
 	public int comandoSql(String sql, Object... atributos) {
-		
+		System.out.println(sql);
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			adicionarAtributos(stmt, atributos);

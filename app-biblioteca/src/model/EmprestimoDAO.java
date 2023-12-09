@@ -15,6 +15,7 @@ public class EmprestimoDAO extends DAO{
 		
 			List<Emprestimo> emprestimo = new ArrayList<>();
 			try {
+				
 				PreparedStatement stmt = getConexao().prepareStatement(sql);
 				stmt.setString(1, params+'%');
 				ResultSet resultado = stmt.executeQuery();

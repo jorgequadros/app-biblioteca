@@ -3,7 +3,6 @@ package controller;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import model.Categorias;
 import model.CategoriasDAO;
 import model.Emprestimo;
 import model.EmprestimoDAO;
@@ -42,13 +41,14 @@ public class EmprestimoController implements InterfacesDAO{
 		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
-		CategoriasDAO cdao = new CategoriasDAO();
+		EmprestimoDAO edao = new EmprestimoDAO();
 		
-		for(Categorias c: cdao.pesquisa("select * from categorias where descricao like ?;", consulta)) {
+		for(Emprestimo e: edao.pesquisa("select * from emprestimos AS e, livros AS l, usuario As u where l.id=e.id_livro and u.id=e.usuario and dt_devolucao=?;", consulta)) {
 			modelo.addRow(new Object[] {
-					c.getId(),
-					c.getDescricao(),
-					c.getObs()
+					e.getId(),
+					e.getDtEmprestimo(),
+					e.getDtDevolucao(),
+					e.getId_usuario()
 					});
 			
 		}
@@ -65,8 +65,9 @@ public class EmprestimoController implements InterfacesDAO{
 		for(Emprestimo e: edao.pesquisaTodos("select * from emprestimo;")) {
 			modelo.addRow(new Object[] {
 					e.getId(),
-					e.getLivros().getTitulo(),
-					e.getUsuarios().getNome()
+					e.getDtEmprestimo(),
+					e.getDtDevolucao(),
+					e.getId_usuario()
 					});
 			
 		}
