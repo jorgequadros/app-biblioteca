@@ -9,9 +9,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConexaoBD {
-		
-	private ConexaoBD() {}
-		
+			
 	public static Connection getConnection() {
 		try {
 			Properties prop = new Properties();
@@ -35,6 +33,5 @@ public class ConexaoBD {
 			throw new RuntimeException(e);
 		}
 		return null;
-	}
-	
+	}	
 }

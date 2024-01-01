@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 public abstract class DAO {
@@ -25,7 +26,7 @@ public abstract class DAO {
 	}
 	
 	public int comandoSql(String sql, Object... atributos) {
-		System.out.println(sql);
+		
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			adicionarAtributos(stmt, atributos);
@@ -54,8 +55,9 @@ public abstract class DAO {
 				Stmt.setString(indice, (String) atributo);
 			}else if(atributo instanceof Integer) {
 				Stmt.setInt(indice, (Integer) atributo);
+			}else if(atributo instanceof Calendar) {
+				Stmt.setDate(indice, null, (Calendar) atributo);
 			}
-		
 			indice++;
 		}
 	}

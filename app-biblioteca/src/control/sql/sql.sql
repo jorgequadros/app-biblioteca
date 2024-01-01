@@ -63,3 +63,6 @@ Conceitos b�sicos e uso do edito VBA.",1,2012-01-01);
 INSERT INTO categorias (descricao,obs) VALUES("Informática","Livros relacionados a Informática");
 
 INSERT INTO usuarios (nome,endereco,cidade,bairro,cep,telefone,email,usuario,pws,perfil) VALUES("Miriam Quadros","Rua um","Canoas","Olaria",92035014,"51998746321","miriam.souza@gmail.com","miriam.souza","12345","Operador")
+
+INSERT INTO emprestimos (id_usuario,id_livro ,dt_retirada,dt_devolucao) values(1,2,'2023-12-13','2023-12-27');
+INSERT INTO emprestimos (id_usuario,id_livro ,dt_retirada,dt_devolucao) values(1,1,'2023-12-13','2023-12-27');

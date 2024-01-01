@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmprestimoDAO extends DAO{
-
+	
 	@Override
 	public List<Emprestimo> pesquisa(String sql, String params) {
 		
@@ -23,9 +23,13 @@ public class EmprestimoDAO extends DAO{
 				while (resultado.next()) {
 					int id = resultado.getInt("id");
 					int id_usuario = resultado.getInt("id_usuario");
+					String nomeUsuario = resultado.getString("nome");
 					int id_livro = resultado.getInt("id_livro");
+					String titulo = resultado.getString("titulo");
 					Date devolucao = resultado.getDate("dt_devolucao");
-					emprestimo.add(new Emprestimo(id,devolucao, id_usuario,id_livro));
+					Date retirada = resultado.getDate("dt_retirada");
+					
+					emprestimo.add(new Emprestimo(id,retirada,devolucao, id_livro, titulo, id_usuario,nomeUsuario));
 				}
 				
 				stmt.close();
@@ -46,15 +50,18 @@ public class EmprestimoDAO extends DAO{
 		try {
 			PreparedStatement stmt = getConexao().prepareStatement(sql);
 			ResultSet resultado = stmt.executeQuery();
-			
-			while (resultado.next()) {
-				int id = resultado.getInt("id");
-				int id_usuario = resultado.getInt("id_usuario");
-				int id_livro = resultado.getInt("id_livro");
-				Date devolucao = resultado.getDate("dt_devolucao");
-				emprestimo.add(new Emprestimo(id,devolucao, id_usuario,id_livro));
+			if(resultado.next()) {
+				do {
+					int id = resultado.getInt("id");
+					int id_usuario = resultado.getInt("id_usuario");
+					String nomeUsuario = resultado.getString("nome");
+					int id_livro = resultado.getInt("id_livro");
+					String titulo = resultado.getString("titulo");
+					Date devolucao = resultado.getDate("dt_devolucao");
+					Date retirada = resultado.getDate("dt_retirada");
+					emprestimo.add(new Emprestimo(id,retirada,devolucao, id_livro, titulo, id_usuario,nomeUsuario));
+				}while (resultado.next()) ;
 			}
-			
 			stmt.close();
 			getConexao().close();
 			

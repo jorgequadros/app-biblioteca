@@ -32,6 +32,22 @@ public class LivrosController implements InterfacesDAO{
 				+ " where id=?;",campos);
 	}
 
+	public void alterarStatus(Object... campos) {
+		
+		LivrosDAO l =new LivrosDAO();
+		l.comandoSql("update livros set situacao=? where id=?;",campos);
+		
+	}
+	
+	public boolean isLivro(int valor) {
+		LivrosDAO l = new LivrosDAO();
+		if(l.isLivros("select situacao from livros where id=?", valor)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public void excluir(int id) {
 		

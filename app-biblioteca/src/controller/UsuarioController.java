@@ -85,7 +85,7 @@ public class UsuarioController implements InterfacesDAO{
 		
 		UsuariosDAO udao =new UsuariosDAO();
 		String novaConsulta = consulta+"%";
-		System.out.println(novaConsulta);
+		
 		for (Usuario u : udao.pesquisa("select * from usuarios where nome like ?", novaConsulta)) {
 			modelo.addElement(u);
 		}

@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Emprestimo {
 
@@ -13,8 +14,19 @@ public class Emprestimo {
 	private Usuario usuarios;
 	
 	public Emprestimo() {}
-	public Emprestimo(int id, Date dtDevolucao, int id_Livro, int id_usuario) {}
-
+	public Emprestimo(int id, Date dtDevolucao,Date dtEmprestimo, int id_Livro, String titulo, 
+			int id_usuario, String nome) {
+		this.setId(id);
+		this.setDtDevolucao(dtDevolucao);
+		this.setDtEmprestimo(dtEmprestimo);
+		this.setId_Livro(id_Livro);
+		livros = new Livros();
+		this.livros.setTitulo(titulo);
+		this.setId_usuario(id_usuario);
+		usuarios = new Usuario();
+		this.usuarios.setNome(nome);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -71,4 +83,11 @@ public class Emprestimo {
 		this.id_usuario = id_usuario;
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf =new SimpleDateFormat("dd/MM/yyyy");
+		
+		return sdf.format(this.getDtDevolucao());
+	}
 }

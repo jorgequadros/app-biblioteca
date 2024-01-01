@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -79,6 +80,30 @@ public class UsuariosDAO extends DAO{
 		
 		
 		return usuarios;
+	}
+	
+	public boolean login(String sql, String login, String Senha) {
+		PreparedStatement stmt;
+		try {
+			stmt = getConexao().prepareStatement(sql);
+			stmt.setString(1, login);
+			ResultSet resultado = stmt.executeQuery();
+			if(resultado.next()) {
+				if (login.equals(resultado.getString("usuario")) &&	Senha.equals(resultado.getString("pws"))){
+					return true;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

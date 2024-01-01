@@ -1,5 +1,8 @@
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -10,11 +13,12 @@ import model.InterfacesDAO;
 
 public class EmprestimoController implements InterfacesDAO{
 
+	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	@Override
 	public void incluir(Object... campos) {
 		
 		EmprestimoDAO edao = new EmprestimoDAO();
-		edao.comandoSql("INSERT INTO emprestimos (dt_retirada,dt_devolucao, id_livro,id_usuario) values(?,?,?,?)", campos);
+		edao.comandoSql("INSERT INTO emprestimos (id_usuario,id_livro ,dt_retirada,dt_devolucao) values(?,?,?,?)", campos);
 	}
 
 	@Override
@@ -27,6 +31,7 @@ public class EmprestimoController implements InterfacesDAO{
 				+ "id_livro=?,"
 				+ "id_usuario=?"
 				+ " where id=?;", campos);
+		
 	}
 
 	@Override
@@ -42,13 +47,18 @@ public class EmprestimoController implements InterfacesDAO{
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
 		EmprestimoDAO edao = new EmprestimoDAO();
-		
-		for(Emprestimo e: edao.pesquisa("select * from emprestimos AS e, livros AS l, usuario As u where l.id=e.id_livro and u.id=e.usuario and dt_devolucao=?;", consulta)) {
+
+		for(Emprestimo e: edao.pesquisa("select * from emprestimos AS e, livros AS l, usuarios As u "
+				+ "where l.id=e.id_livro and u.id=e.id_usuario and dt_devolucao=?;", consulta)) {
+					
 			modelo.addRow(new Object[] {
 					e.getId(),
-					e.getDtEmprestimo(),
-					e.getDtDevolucao(),
-					e.getId_usuario()
+					sdf.format(e.getDtEmprestimo()),
+					sdf.format(e.getDtDevolucao()),
+					e.getId_usuario(),
+					e.getUsuarios().getNome(),
+					e.getId_Livro(),
+					e.getLivros().getTitulo()
 					});
 			
 		}
@@ -60,14 +70,23 @@ public class EmprestimoController implements InterfacesDAO{
 		
 		DefaultTableModel modelo = (DefaultTableModel) tbConsulta.getModel();
 		modelo.setNumRows(0);
+		
+		SimpleDateFormat formataData = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		String strDate = formataData.format(c.getTime());
+		
 		EmprestimoDAO edao = new EmprestimoDAO();
-		//Alterar para buscar por data
-		for(Emprestimo e: edao.pesquisaTodos("select * from emprestimo;")) {
+		
+			
+		for(Emprestimo e: edao.pesquisaTodos("select * from emprestimos AS e, livros AS l, usuarios As u where l.id=e.id_livro and u.id=e.id_usuario and e.dt_devolucao='"+strDate+"';")) {
 			modelo.addRow(new Object[] {
 					e.getId(),
-					e.getDtEmprestimo(),
-					e.getDtDevolucao(),
-					e.getId_usuario()
+					sdf.format(e.getDtEmprestimo()),
+					sdf.format(e.getDtDevolucao()),
+					e.getId_usuario(),
+					e.getUsuarios().getNome(),
+					e.getId_Livro(),
+					e.getLivros().getTitulo(),
 					});
 			
 		}

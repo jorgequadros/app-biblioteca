@@ -8,7 +8,16 @@ public class Livros {
 	private String dtAquisicao;
 	private String autor;
 	private Categorias cat;
+	private int situacao;
 	
+	public int getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(int situacao) {
+		this.situacao = situacao;
+	}
+
 	public Livros(int id, String titulo, String assunto, String autor, int id_categoria, String descricao, String obs, String dtAquisicao2) {
 		
 		this.id = id;
@@ -31,6 +40,9 @@ public class Livros {
 		this.autor= autor;
 	}
 	
+	public Livros() {
+		// TODO Auto-generated constructor stub
+	}
 	public Categorias getCat() {
 		return cat;
 	}

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -76,6 +77,32 @@ public class LivrosDAO extends DAO{
 		
 		
 		return livros;
+	}
+	
+	public boolean isLivros(String sql, int valor) {
+		
+		try {
+			PreparedStatement stmt = getConexao().prepareStatement(sql);
+			stmt.setInt(1, valor);
+			ResultSet resultado = stmt.executeQuery();
+			while (resultado.next()) {
+				if(resultado.getInt("situacao")==1) {
+					return false;
+				}
+			}
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 	
 }
