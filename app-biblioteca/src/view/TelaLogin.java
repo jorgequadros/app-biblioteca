@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.TelaLoginController;
+import model.Usuario;
+import model.UsuariosDAO;
 
 public class TelaLogin extends JFrame {
 
@@ -22,7 +24,8 @@ public class TelaLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField tfUsuario;
 	private JPasswordField pfSenha;
-	
+	String nome;
+	String perfil;
 
 	/**
 	 * Launch the application.
@@ -77,30 +80,49 @@ public class TelaLogin extends JFrame {
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaLoginController tctrl = new TelaLoginController();
-				if(tctrl.login(tfUsuario.getText(), new String(pfSenha.getPassword()))) {
-					EventQueue.invokeLater(new Runnable() {
-						public void run() {
-							try {
-								ViewPrincipal window = new ViewPrincipal();
-								window.frame.setVisible(true);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					});
-					dispose();
+				if (tfUsuario.getText().length()==0) {
+					JOptionPane.showMessageDialog(TelaLogin.this, "Campo usuário Vázio!!", "Campo vazio", JOptionPane.INFORMATION_MESSAGE);
+				}else if(pfSenha.getPassword().length==0){
+					JOptionPane.showMessageDialog(TelaLogin.this, "Campo Senha Vázio!!", "Campo vazio", JOptionPane.INFORMATION_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null,"Senha ou usuário errado!!");
-				};
+					if(tctrl.login(tfUsuario.getText(), new String(pfSenha.getPassword()))) {
+						
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									UsuariosDAO udao = new UsuariosDAO();
+									
+									for(Usuario u: udao.pesquisa("select * from usuarios where usuario=?", tfUsuario.getText())) {
+										nome=u.getNome();
+										perfil=u.getTipousuario();
+										System.out.println("Nome Usuario: " +nome);
+										System.out.println("Perfil: "+perfil);
+									}
+									ViewPrincipal window = new ViewPrincipal();
+									window.setVisible(true);
+									window.lbNome.setText(nome);
+									window.lbTipo.setText(perfil);
+									if(perfil.equals("Administrador")){
+										window.mnItemCategorias.setEnabled(true);
+										window.mnuItemLivros.setEnabled(true);
+										window.mnuItemUsuarios.setEnabled(true);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
+						dispose();
+					}else {
+						
+						JOptionPane.showMessageDialog(TelaLogin.this,"Senha ou usuário errado!!","Usuário não encontrado!!", JOptionPane.INFORMATION_MESSAGE);
+					};
+				}
+				
 			}
 		});
 		btnLogar.setFont(new Font("Arial", Font.BOLD, 14));
-		btnLogar.setBounds(225, 39, 104, 40);
+		btnLogar.setBounds(234, 89, 104, 40);
 		contentPane.add(btnLogar);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
-		btnCancelar.setBounds(225, 89, 104, 40);
-		contentPane.add(btnCancelar);
 	}
 }

@@ -1,63 +1,57 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-public class ViewPrincipal {
+public class ViewPrincipal extends JFrame {
 
-	JFrame frame;
-
-	/**
-	 * Launch the application.
-	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	public JLabel lbNome,lbTipo;
 	
+	public JMenuItem mnItemCategorias, mnuItemUsuarios, mnuItemLivros;
+
+	
+
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public ViewPrincipal() {
-		initialize();
-	}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1000, 611);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1000, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JDesktopPane desktop = new JDesktopPane();
-		desktop.setBounds(0, 0, 1000, 461);
-		frame.getContentPane().add(desktop);
+		desktop.setBounds(0, 24, 825, 548);
+		contentPane.add(desktop);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 990, 22);
-		desktop.add(menuBar);
-		//inicia menu Cadastro
-		JMenu mnuCadastro = new JMenu("Cadastro");
-		menuBar.add(mnuCadastro);
+		menuBar.setBounds(0, 0, 984, 22);
+		contentPane.add(menuBar);
 		
-		JMenuItem mnuItemCadCategorias = new JMenuItem("Categorias");
-		mnuCadastro.add(mnuItemCadCategorias);
+		JMenu mnConsulta = new JMenu("Consulta");
+		menuBar.add(mnConsulta);
 		
-		JMenuItem mnuItemCadLivros = new JMenuItem("Livros");
-		mnuCadastro.add(mnuItemCadLivros);
-		
-		
-		//inicia menu Consulta
-		JMenu MnuConsulta = new JMenu("Consulta");
-		menuBar.add(MnuConsulta);
-		
-		JMenuItem ItemMnuConsCategoria = new JMenuItem("Categorias");
-		ItemMnuConsCategoria.addActionListener(new ActionListener() {
+		mnItemCategorias = new JMenuItem("Categorias");
+		mnItemCategorias.setEnabled(false);
+		mnItemCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
@@ -72,10 +66,11 @@ public class ViewPrincipal {
 				});
 			}
 		});
-		MnuConsulta.add(ItemMnuConsCategoria);
+		mnConsulta.add(mnItemCategorias);
 		
-		JMenuItem ItemMnuLivros = new JMenuItem("Livros");
-		ItemMnuLivros.addActionListener(new ActionListener() {
+		mnuItemLivros = new JMenuItem("Livros");
+		mnuItemLivros.setEnabled(false);
+		mnuItemLivros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
@@ -90,10 +85,11 @@ public class ViewPrincipal {
 				});
 			}
 		});
-		MnuConsulta.add(ItemMnuLivros);
+		mnConsulta.add(mnuItemLivros);
 		
-		JMenuItem mnuItemUsuario = new JMenuItem("Usuários");
-		mnuItemUsuario.addActionListener(new ActionListener() {
+		mnuItemUsuarios = new JMenuItem("Usuarios");
+		mnuItemUsuarios.setEnabled(false);
+		mnuItemUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				EventQueue.invokeLater(new Runnable() {
@@ -109,16 +105,13 @@ public class ViewPrincipal {
 				});
 			}
 		});
+		mnConsulta.add(mnuItemUsuarios);
 		
-		MnuConsulta.add(mnuItemUsuario);
-		
-		
-		//inicia menu Movimentação
 		JMenu mnuMovimentacao = new JMenu("Movimentação");
 		menuBar.add(mnuMovimentacao);
 		
-		JMenuItem mnuItemEmprestimos = new JMenuItem("Emprestimos");
-		mnuItemEmprestimos.addActionListener(new ActionListener() {
+		JMenuItem mnuItemEmprestimo = new JMenuItem("Emprestimo");
+		mnuItemEmprestimo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
 				EventQueue.invokeLater(new Runnable() {
@@ -134,6 +127,45 @@ public class ViewPrincipal {
 				});
 			}
 		});
-		mnuMovimentacao.add(mnuItemEmprestimos);
+		mnuMovimentacao.add(mnuItemEmprestimo);
+		
+		JMenu mnuSobre = new JMenu("Ajuda");
+		menuBar.add(mnuSobre);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Sobre");
+		mnuSobre.add(mntmNewMenuItem);
+	
+		JLabel lbNomeUsuario = new JLabel("Nome do Usuário");
+		lbNomeUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbNomeUsuario.setBounds(835, 33, 127, 32);
+		contentPane.add(lbNomeUsuario);
+		
+		
+		lbNome = new JLabel("");
+		lbNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbNome.setBounds(835, 76, 127, 14);
+		contentPane.add(lbNome);
+		
+		JLabel lbTipoUsuario = new JLabel("Tipo de Usuário");
+		lbTipoUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbTipoUsuario.setBounds(835, 101, 127, 14);
+		contentPane.add(lbTipoUsuario);
+		
+		lbTipo = new JLabel("");
+		lbTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbTipo.setBounds(835, 126, 110, 14);
+		contentPane.add(lbTipo);
+		
+		JLabel lbDataSistema = new JLabel("Data");
+		lbDataSistema.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbDataSistema.setBounds(835, 151, 46, 14);
+		contentPane.add(lbDataSistema);
+		
+		Date data =new Date();
+		DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
+		JLabel lbDataAtual = new JLabel(formatador.format(data));
+		lbDataAtual.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbDataAtual.setBounds(835, 176, 110, 14);
+		contentPane.add(lbDataAtual);
 	}
 }
