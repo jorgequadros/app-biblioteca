@@ -47,6 +47,8 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
+		setTitle("Login de Usuário");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 200);
 		contentPane = new JPanel();
@@ -61,7 +63,7 @@ public class TelaLogin extends JFrame {
 		contentPane.add(lbUsuario);
 		
 		tfUsuario = new JTextField();
-		tfUsuario.setFont(new Font("Arial", Font.ITALIC, 14));
+		tfUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
 		tfUsuario.setBounds(49, 59, 128, 20);
 		contentPane.add(tfUsuario);
 		tfUsuario.setColumns(10);

@@ -31,7 +31,7 @@ public class ViewPrincipal extends JFrame {
 	 */
 	public ViewPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 611);
+		setBounds(100, 100, 1100, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -39,11 +39,11 @@ public class ViewPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		
 		JDesktopPane desktop = new JDesktopPane();
-		desktop.setBounds(0, 24, 825, 548);
+		desktop.setBounds(0, 24, 1081, 524);
 		contentPane.add(desktop);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 984, 22);
+		menuBar.setBounds(0, 0, 1084, 22);
 		contentPane.add(menuBar);
 		
 		JMenu mnConsulta = new JMenu("Consulta");
@@ -137,35 +137,35 @@ public class ViewPrincipal extends JFrame {
 	
 		JLabel lbNomeUsuario = new JLabel("Nome do Usuário");
 		lbNomeUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbNomeUsuario.setBounds(835, 33, 127, 32);
+		lbNomeUsuario.setBounds(6, 543, 127, 32);
 		contentPane.add(lbNomeUsuario);
 		
 		
 		lbNome = new JLabel("");
 		lbNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNome.setBounds(835, 76, 127, 14);
+		lbNome.setBounds(130, 554, 189, 14);
 		contentPane.add(lbNome);
 		
 		JLabel lbTipoUsuario = new JLabel("Tipo de Usuário");
 		lbTipoUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbTipoUsuario.setBounds(835, 101, 127, 14);
+		lbTipoUsuario.setBounds(327, 555, 127, 14);
 		contentPane.add(lbTipoUsuario);
 		
 		lbTipo = new JLabel("");
 		lbTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbTipo.setBounds(835, 126, 110, 14);
+		lbTipo.setBounds(442, 556, 110, 14);
 		contentPane.add(lbTipo);
-		
-		JLabel lbDataSistema = new JLabel("Data");
-		lbDataSistema.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbDataSistema.setBounds(835, 151, 46, 14);
-		contentPane.add(lbDataSistema);
 		
 		Date data =new Date();
 		DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
 		JLabel lbDataAtual = new JLabel(formatador.format(data));
 		lbDataAtual.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbDataAtual.setBounds(835, 176, 110, 14);
+		lbDataAtual.setBounds(633, 556, 110, 14);
 		contentPane.add(lbDataAtual);
+		
+		JLabel lbDataSistema = new JLabel("Data");
+		lbDataSistema.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbDataSistema.setBounds(574, 556, 52, 14);
+		contentPane.add(lbDataSistema);
 	}
 }
