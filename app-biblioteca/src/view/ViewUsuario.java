@@ -209,6 +209,33 @@ public class ViewUsuario extends JInternalFrame{
 			public void mouseClicked(MouseEvent e) {
 				//Boolean tabela =tbConsulta.isEditing();
 				//verificação posterior quais campos serão mostrados na tabela
+	
+						Boolean tabela =tbConsulta.isEditing();
+						try {
+							tfID.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
+							tfNome.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString());
+							tfBairro.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 2).toString());
+							tfC.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 6).toString());
+							ModelCombo.setSelectedItem(tbConsulta.getValueAt(tbConsulta.getSelectedRow(),4));
+							
+							if(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString().length()>0) {
+								taAssunto.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString());
+							}else{
+								taAssunto.setText("");
+								
+							};
+							String Id = tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString();
+							String Livro = tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString();
+							if (tabela==false) {
+								JOptionPane.showMessageDialog(null, "Id : " + Id +" Titulo : " + Livro);
+							} 
+							
+						} catch (Exception e1) {
+							
+							new Throwable(e1);
+						}
+					}
+				});
 				
 			}
 		});
@@ -312,8 +339,6 @@ public class ViewUsuario extends JInternalFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 
-
 				UsuariosHelpers uhelp = new UsuariosHelpers();
 				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
 			}
