@@ -1,3 +1,7 @@
+create database nomeDoBancoDados;
+
+show databases;
+
 create table categorias(
 	id int auto_increment not null,
     descricao varchar(50) not null,
