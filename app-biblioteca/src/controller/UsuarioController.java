@@ -52,12 +52,19 @@ public class UsuarioController implements InterfacesDAO{
 		UsuariosDAO udao = new UsuariosDAO();
 		String novaConsulta = consulta+"%";
 		codigo =new String();
+		//"ID", "Nome", "Telefone", "E-mail", "Endere\u00E7o", "Bairro", "Cidade", "Perfil", "CEP", "Usu\u00E1rio"
 		for(Usuario u: udao.pesquisa("select * from usuarios where nome like ?",novaConsulta)) {
 			modelo.addRow(new Object[] {
 					u.getId(),
 					u.getNome(),
-					u.getUsuario(),
-					u.getEmail()
+					u.getTelefone(),
+					u.getEmail(),
+					u.getEndereco(),
+					u.getBairro(),
+					u.getCidade(),
+					u.getTipousuario(),
+					u.getCep(),
+					u.getUsuario()
 					});
 			
 		}

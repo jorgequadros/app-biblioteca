@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -25,230 +24,155 @@ import javax.swing.text.MaskFormatter;
 import controller.UsuarioController;
 import helpers.UsuariosHelpers;
 
-public class ViewUsuario extends JInternalFrame{
+public class ViewUsuario extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField tfID;
-	private JTextField tfNome;
-	private JTextField tfEndereco;
-	private JTextField tfCidade;
-	private JTextField tfBairro;
-	private JTextField tfEmail;
-	private JTextField tfUsuario;
-	private JFormattedTextField ftfCep;
-	private JPasswordField pwdSenha;
-	JFormattedTextField ftfTelefone;
+	private JTextField tfId, tfNome, tfEndereco,tfCidade, tfBairro, tfUsuario, tfEmail;
+	private JFormattedTextField ftfCep, ftfTelefone;
+	private JPasswordField pfSenha;
 	private JTable tbConsulta;
-	
-	@SuppressWarnings("serial")
+
+	private JComboBox<String> cboPerfil;
+
 	public ViewUsuario() {
-		setIconifiable(true);
-		setResizable(true);
+		setMaximizable(true);
 		setClosable(true);
-		setBounds(100, 100, 862, 257);
+		setBounds(100, 100, 900, 400);
 		getContentPane().setLayout(null);
 		
-		JPanel pnFormCadastro = new JPanel();
-		pnFormCadastro.setBounds(10, 11, 327, 231);
-		getContentPane().add(pnFormCadastro);
-		pnFormCadastro.setLayout(null);
+		JPanel pnForm = new JPanel();
+		pnForm.setBounds(10, 11, 323, 348);
+		getContentPane().add(pnForm);
+		pnForm.setLayout(null);
 		
-		JLabel lbID = new JLabel("ID");
-		lbID.setFont(new Font("Arial", Font.BOLD, 12));
-		lbID.setBounds(10, 11, 23, 14);
-		pnFormCadastro.add(lbID);
+		JLabel lbId = new JLabel("ID");
+		lbId.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbId.setBounds(10, 11, 25, 14);
+		pnForm.add(lbId);
 		
-		tfID = new JTextField();
-		tfID.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfID.setBounds(10, 27, 23, 20);
-		tfID.setEnabled(false);
-		pnFormCadastro.add(tfID);
-		tfID.setColumns(10);
+		tfId = new JTextField();
+		tfId.setBounds(35, 8, 46, 20);
+		pnForm.add(tfId);
+		tfId.setColumns(10);
 		
-		JLabel lbNome = new JLabel("Nome");
-		lbNome.setFont(new Font("Arial", Font.BOLD, 12));
-		lbNome.setBounds(36, 11, 46, 14);
-		pnFormCadastro.add(lbNome);
+		JLabel lbNOme = new JLabel("Nome");
+		lbNOme.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbNOme.setBounds(91, 11, 46, 14);
+		pnForm.add(lbNOme);
 		
 		tfNome = new JTextField();
-		tfNome.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfNome.setBounds(35, 27, 125, 20);
-		pnFormCadastro.add(tfNome);
+		tfNome.setBounds(126, 8, 170, 20);
+		pnForm.add(tfNome);
 		tfNome.setColumns(10);
 		
 		JLabel lbEndereco = new JLabel("Endereço");
-		lbEndereco.setFont(new Font("Arial", Font.BOLD, 12));
-		lbEndereco.setBounds(162, 11, 86, 14);
-		pnFormCadastro.add(lbEndereco);
+		lbEndereco.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbEndereco.setBounds(10, 36, 48, 14);
+		pnForm.add(lbEndereco);
 		
 		tfEndereco = new JTextField();
-		tfEndereco.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfEndereco.setBounds(162, 27, 152, 20);
-		pnFormCadastro.add(tfEndereco);
+		tfEndereco.setBounds(65, 37, 231, 20);
+		pnForm.add(tfEndereco);
 		tfEndereco.setColumns(10);
 		
 		JLabel lbCidade = new JLabel("Cidade");
-		lbCidade.setFont(new Font("Arial", Font.BOLD, 12));
-		lbCidade.setBounds(10, 57, 46, 14);
-		pnFormCadastro.add(lbCidade);
+		lbCidade.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbCidade.setBounds(10, 71, 46, 14);
+		pnForm.add(lbCidade);
 		
 		tfCidade = new JTextField();
-		tfCidade.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfCidade.setBounds(10, 74, 137, 20);
-		pnFormCadastro.add(tfCidade);
+		tfCidade.setBounds(54, 68, 242, 20);
+		pnForm.add(tfCidade);
 		tfCidade.setColumns(10);
 		
 		JLabel lbBairro = new JLabel("Bairro");
-		lbBairro.setFont(new Font("Arial", Font.BOLD, 12));
-		lbBairro.setBounds(151, 57, 46, 14);
-		pnFormCadastro.add(lbBairro);
+		lbBairro.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbBairro.setBounds(10, 102, 46, 14);
+		pnForm.add(lbBairro);
 		
 		tfBairro = new JTextField();
-		tfBairro.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfBairro.setBounds(151, 74, 163, 20);
-		pnFormCadastro.add(tfBairro);
+		tfBairro.setBounds(54, 99, 242, 20);
+		pnForm.add(tfBairro);
 		tfBairro.setColumns(10);
 		
-		JLabel lbCep = new JLabel("Cep");
-		lbCep.setFont(new Font("Arial", Font.BOLD, 12));
-		lbCep.setBounds(10, 105, 46, 14);
-		pnFormCadastro.add(lbCep);
+		JLabel lbCep = new JLabel("CEP");
+		lbCep.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbCep.setBounds(10, 127, 46, 14);
+		pnForm.add(lbCep);
 		
 		try {
 			ftfCep = new JFormattedTextField(new MaskFormatter("#####-###"));
 			ftfCep.setFont(new Font("Arial", Font.PLAIN, 12));
-			ftfCep.setBounds(10, 122, 70, 20);
-			pnFormCadastro.add(ftfCep);
+			ftfCep.setBounds(46, 127, 70, 20);
+			pnForm.add(ftfCep);
 		} catch (ParseException e) {
 			
 			System.out.println(e);
 		}
 		
 		JLabel lbTelefone = new JLabel("Telefone");
-		lbTelefone.setFont(new Font("Arial", Font.BOLD, 12));
-		lbTelefone.setBounds(84, 105, 63, 14);
-		pnFormCadastro.add(lbTelefone);
+		lbTelefone.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbTelefone.setBounds(126, 130, 56, 14);
+		pnForm.add(lbTelefone);
 		
 		try {
 			ftfTelefone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
 			ftfTelefone.setFont(new Font("Arial", Font.PLAIN, 12));
-			ftfTelefone.setBounds(84, 122, 80, 20);
-			pnFormCadastro.add(ftfTelefone);
+			ftfTelefone.setBounds(186, 130, 80, 20);
+			pnForm.add(ftfTelefone);
 		} catch (ParseException e) {
 			
 			e.printStackTrace();
 		}
 		
-		tfEmail = new JTextField();
-		tfEmail.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfEmail.setBounds(167, 122, 147, 20);
-		pnFormCadastro.add(tfEmail);
-		tfEmail.setColumns(10);
-		
-		JLabel lbEmail = new JLabel("E-mail");
-		lbEmail.setFont(new Font("Arial", Font.BOLD, 12));
-		lbEmail.setBounds(167, 105, 46, 14);
-		pnFormCadastro.add(lbEmail);
-		
 		JLabel lbUsuario = new JLabel("Usuário");
-		lbUsuario.setFont(new Font("Arial", Font.BOLD, 12));
-		lbUsuario.setBounds(10, 153, 46, 14);
-		pnFormCadastro.add(lbUsuario);
+		lbUsuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbUsuario.setBounds(10, 163, 46, 14);
+		pnForm.add(lbUsuario);
 		
 		tfUsuario = new JTextField();
-		tfUsuario.setFont(new Font("Arial", Font.PLAIN, 12));
-		tfUsuario.setBounds(10, 170, 86, 20);
-		pnFormCadastro.add(tfUsuario);
+		tfUsuario.setBounds(55, 158, 86, 20);
+		pnForm.add(tfUsuario);
 		tfUsuario.setColumns(10);
 		
 		JLabel lbSenha = new JLabel("Senha");
-		lbSenha.setFont(new Font("Arial", Font.BOLD, 12));
-		lbSenha.setBounds(101, 153, 46, 14);
-		pnFormCadastro.add(lbSenha);
+		lbSenha.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbSenha.setBounds(156, 163, 46, 14);
+		pnForm.add(lbSenha);
 		
-		pwdSenha = new JPasswordField();
-		pwdSenha.setFont(new Font("Arial", Font.PLAIN, 12));
-		pwdSenha.setBounds(101, 170, 102, 20);
-		pnFormCadastro.add(pwdSenha);
+		pfSenha = new JPasswordField();
+		pfSenha.setBounds(192, 160, 104, 20);
+		pnForm.add(pfSenha);
 		
-		JComboBox<String> cboTipoOperador = new JComboBox<String>();
-		cboTipoOperador.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Cliente", "Operador"}));
-		cboTipoOperador.setFont(new Font("Arial", Font.PLAIN, 12));
-		cboTipoOperador.setBounds(213, 169, 101, 22);
-		pnFormCadastro.add(cboTipoOperador);
+		JLabel lbEmail = new JLabel("E-mail");
+		lbEmail.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbEmail.setBounds(10, 188, 46, 14);
+		pnForm.add(lbEmail);
+		
+		tfEmail = new JTextField();
+		tfEmail.setBounds(50, 185, 86, 20);
+		pnForm.add(tfEmail);
+		tfEmail.setColumns(10);
 		
 		JLabel lbPerfil = new JLabel("Perfil");
-		lbPerfil.setFont(new Font("Arial", Font.BOLD, 12));
-		lbPerfil.setBounds(213, 153, 101, 14);
-		pnFormCadastro.add(lbPerfil);
+		lbPerfil.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lbPerfil.setBounds(156, 188, 36, 14);
+		pnForm.add(lbPerfil);
 		
-		JScrollPane spTabela = new JScrollPane();
-		spTabela.setBounds(463, 11, 381, 210);
-		getContentPane().add(spTabela);
+		cboPerfil = new JComboBox<String>(new String[] {"Administrador", "Cliente", "Operador"});
+		cboPerfil.setFont(new Font("Arial", Font.PLAIN, 12));
+		cboPerfil.setBounds(213, 169, 101, 22);
+		cboPerfil.setBounds(192, 188, 104, 22);
+		pnForm.add(cboPerfil);
 		
-		tbConsulta = new JTable();
-		tbConsulta.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "Nome", "Usu\u00E1rio", "E-mail"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tbConsulta.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tbConsulta.getColumnModel().getColumn(1).setPreferredWidth(208);
-		tbConsulta.getColumnModel().getColumn(2).setPreferredWidth(154);
-		tbConsulta.getColumnModel().getColumn(3).setPreferredWidth(134);
-		tbConsulta.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				//Boolean tabela =tbConsulta.isEditing();
-				//verificação posterior quais campos serão mostrados na tabela
-	
-						Boolean tabela =tbConsulta.isEditing();
-						try {
-							tfID.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
-							tfNome.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString());
-							tfBairro.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 2).toString());
-							tfC.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 6).toString());
-							ModelCombo.setSelectedItem(tbConsulta.getValueAt(tbConsulta.getSelectedRow(),4));
-							
-							if(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString().length()>0) {
-								taAssunto.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString());
-							}else{
-								taAssunto.setText("");
-								
-							};
-							String Id = tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString();
-							String Livro = tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString();
-							if (tabela==false) {
-								JOptionPane.showMessageDialog(null, "Id : " + Id +" Titulo : " + Livro);
-							} 
-							
-						} catch (Exception e1) {
-							
-							new Throwable(e1);
-						}
-					}
-				});
-				
-			}
-		});
-		spTabela.setViewportView(tbConsulta);
-		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setFont(new Font("Arial", Font.BOLD, 12));
-		btnPesquisar.setBounds(353, 11, 100, 23);
-		btnPesquisar.addActionListener(new ActionListener() {
+		JButton btnPesquisa = new JButton("Pesquisa");
+		btnPesquisa.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		btnPesquisa.setBounds(10, 248, 89, 23);
+		btnPesquisa.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+				// TODO Auto-generated method stub
 				UsuarioController uctrl = new UsuarioController();
 				UsuariosHelpers uhelp = new UsuariosHelpers();
 				if(tfNome.getText()==""){
@@ -256,14 +180,14 @@ public class ViewUsuario extends JInternalFrame{
 				}else{
 					uctrl.pesquisaPorCampo(tfNome.getText(), tbConsulta);
 				}
-				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pwdSenha);	
+				uhelp.limpa(tfId, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pfSenha);
 			}
 		});
-		getContentPane().add(btnPesquisar);
+		pnForm.add(btnPesquisa);
 		
 		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.setFont(new Font("Arial", Font.BOLD, 12));
-		btnAlterar.setBounds(353, 45, 100, 23);
+		btnAlterar.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		btnAlterar.setBounds(109, 248, 89, 23);
 		btnAlterar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -271,19 +195,19 @@ public class ViewUsuario extends JInternalFrame{
 				
 					UsuarioController uctrl = new UsuarioController();
 					UsuariosHelpers uhelp = new UsuariosHelpers();
-					String senha= new String(pwdSenha.getPassword());
+					String senha= new String(pfSenha.getPassword());
 					uctrl.alterar(tfNome.getText(),tfEndereco.getText(),tfCidade.getText(), tfBairro.getText(),
 						      Integer.parseInt(uhelp.cep(ftfCep.getText())),uhelp.telefone(ftfTelefone.getText()), 
-							  tfEmail.getText(),tfUsuario.getText(), senha, cboTipoOperador.getSelectedItem(),tfID.getText());
+							  tfEmail.getText(),tfUsuario.getText(), senha, cboPerfil.getSelectedItem(),tfId.getText());
 					
-					uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pwdSenha);
+					uhelp.limpa(tfId, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pfSenha);
 			}
 		});
-		getContentPane().add(btnAlterar);
+		pnForm.add(btnAlterar);
 		
 		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Arial", Font.BOLD, 12));
-		btnExcluir.setBounds(353, 79, 100, 23);
+		btnExcluir.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		btnExcluir.setBounds(208, 248, 89, 23);
 		btnExcluir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -291,16 +215,16 @@ public class ViewUsuario extends JInternalFrame{
 				
 					UsuarioController uctrl = new UsuarioController();
 					UsuariosHelpers uhelp = new UsuariosHelpers();
-					uctrl.excluir(Integer.parseInt(tfID.getText()));
+					uctrl.excluir(Integer.parseInt(tfId.getText()));
 					
-					uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pwdSenha);	
+					uhelp.limpa(tfId, tfNome, tfEndereco, tfBairro, tfCidade, ftfCep, ftfTelefone, tfUsuario, tfEmail, pfSenha);	
 			}
 		});
-		getContentPane().add(btnExcluir);
+		pnForm.add(btnExcluir);
 		
 		JButton btnIncluir = new JButton("Incluir");
-		btnIncluir.setFont(new Font("Arial", Font.BOLD, 12));
-		btnIncluir.setBounds(353, 113, 100, 23);
+		btnIncluir.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		btnIncluir.setBounds(48, 292, 89, 23);
 		btnIncluir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -309,7 +233,7 @@ public class ViewUsuario extends JInternalFrame{
 				UsuariosHelpers uhelp = new UsuariosHelpers();
 				UsuarioController uctrl = new UsuarioController();
 				
-				String senha= new String(pwdSenha.getPassword());
+				String senha= new String(pfSenha.getPassword());
 				if(tfNome.getText()==""){
 					JOptionPane.showMessageDialog(null,"");
 					if(tfEndereco.getText()==""){
@@ -321,30 +245,66 @@ public class ViewUsuario extends JInternalFrame{
 								
 								uctrl.incluir(tfNome.getText(),tfEndereco.getText(),tfCidade.getText(), tfBairro.getText(),
 										      Integer.parseInt(uhelp.cep(ftfCep.getText())),uhelp.telefone(ftfTelefone.getText()), 
-											  tfEmail.getText(),tfUsuario.getText(), senha, cboTipoOperador.getSelectedItem());
+											  tfEmail.getText(),tfUsuario.getText(), senha, cboPerfil.getSelectedItem());
 											  
-								uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
+								uhelp.limpa(tfId, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pfSenha);
 							
 						}
 					}
 				}
 			}
 		}});
-		getContentPane().add(btnIncluir);
+		pnForm.add(btnIncluir);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCancelar.setBounds(353, 147, 100, 23);
+		btnCancelar.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		btnCancelar.setBounds(158, 292, 89, 23);
 		btnCancelar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				UsuariosHelpers uhelp = new UsuariosHelpers();
-				uhelp.limpa(tfID, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pwdSenha);
+				uhelp.limpa(tfId, tfNome, tfEndereco, tfBairro,tfCidade, ftfCep, ftfTelefone,tfUsuario,tfEmail,pfSenha);
 			}
 		});
-		getContentPane().add(btnCancelar);
+		pnForm.add(btnCancelar);
 		
-	}
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(343, 11, 531, 348);
+		getContentPane().add(scrollPane);
+		
+		tbConsulta = new JTable();
+		tbConsulta.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ID", "Nome", "Telefone", "E-mail", "Endere\u00E7o", "Bairro", "Cidade", "Perfil", "CEP", "Usu\u00E1rio"
+			}
+		));
+		tbConsulta.getColumnModel().getColumn(0).setPreferredWidth(31);
+		tbConsulta.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		tbConsulta.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+					tfId.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 0).toString());
+					tfNome.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 1).toString());
+					ftfTelefone.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 2).toString());
+					tfEmail.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 3).toString());
+					tfEndereco.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 4).toString());
+					tfBairro.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 5).toString());
+					tfCidade.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 6).toString());
+					cboPerfil.setSelectedItem(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 7).toString());
+					ftfCep.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 8).toString());
+					tfUsuario.setText(tbConsulta.getValueAt(tbConsulta.getSelectedRow(), 9).toString());		
 	
+				} catch (Exception e1) {
+					System.out.println(e1);
+				}
+					
+			}
+		});
+		scrollPane.setViewportView(tbConsulta);
+	}
+
 }

@@ -97,8 +97,6 @@ public class TelaLogin extends JFrame {
 									for(Usuario u: udao.pesquisa("select * from usuarios where usuario=?", tfUsuario.getText())) {
 										nome=u.getNome();
 										perfil=u.getTipousuario();
-										System.out.println("Nome Usuario: " +nome);
-										System.out.println("Perfil: "+perfil);
 									}
 									ViewPrincipal window = new ViewPrincipal();
 									window.setVisible(true);
