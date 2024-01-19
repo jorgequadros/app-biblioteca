@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -15,16 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import PesquisaTeste.Mecadinho.src.Model.bean.*;
+import PesquisaTeste.Mecadinho.src.Model.bean.Produto;
 import PesquisaTeste.Mecadinho.src.Model.dao.ProdutosDAO;
 import PesquisaTeste.Mercadinho2.src.Model.dao.ProdutosMDAO;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.ListSelectionModel;
 
 public class TelaProdutos {
 
@@ -55,8 +54,7 @@ public class TelaProdutos {
 	 * @throws SQLException 
 	 */
 	public TelaProdutos() throws SQLException {
-		initialize();
-		
+		initialize();	
 	}
 
 	/**
@@ -107,13 +105,20 @@ public class TelaProdutos {
 				p.setQtde(Integer.parseInt(tfQtde.getText()));
 				p.setValor(Double.parseDouble(tfValor.getText()));
 				
+				
 				/*
-				 * try { //dao.create(p); } catch (IOException e2) { // TODO Auto-generated
-				 * catch block e2.printStackTrace(); } try { lerTabela(); } catch (IOException
-				 * e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch
-				 * (SQLException e1) { // TODO Auto-generated catch block e1.printStackTrace();
-				 * }
+				 * try { dao.create(p);
+				 * 
+				 * } catch (IOException e2) { // TODO Auto-generated
+				 * 
+				 * }catch(block e2) { e2.printStackTrace(); }
+				 * 
+				 * try { lerTabela(); } catch (IOException E3) {
+				 * 
+				 * }catch (block e1) { e1.printStackTrace(); } catch (SQLException e1) { // TODO
+				 * Auto-generated catch block e1.printStackTrace(); }
 				 */
+				 
 			}
 		});
 		panelBotoes.add(btSalvar);
