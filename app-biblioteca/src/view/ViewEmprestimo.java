@@ -269,7 +269,7 @@ public class ViewEmprestimo extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			
 				EmprestimoController eCtrl = new EmprestimoController();
 				EmprestimoHelpers eHelp = new EmprestimoHelpers();
 				

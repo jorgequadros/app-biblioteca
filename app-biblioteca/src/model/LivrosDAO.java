@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -62,9 +63,17 @@ public class LivrosDAO extends DAO{
 				int id_categoria = resultado.getInt("id_categoria");
 				String descricao = resultado.getString("descricao");
 				String obs = resultado.getString("obs");
-				Date dtAquisicao = new Date(resultado.getDate("dtAquisicao").getTime());
-				String nvDtAquisicao= new SimpleDateFormat("dd/MM/yyyy").format(dtAquisicao);
-				livros.add(new Livros(id,titulo,assunto,autor,id_categoria, descricao,obs,nvDtAquisicao));
+				String strDate;
+				if(resultado.getDate("dtAquisicao")==null) {
+					Calendar c = Calendar.getInstance();
+					SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+					strDate = formataData.format(c.getTime());
+				}else {
+					Date dtAquisicao = new Date(resultado.getDate("dtAquisicao").getTime());
+					strDate= new SimpleDateFormat("dd/MM/yyyy").format(dtAquisicao);
+				}
+
+				livros.add(new Livros(id,titulo,assunto,autor,id_categoria, descricao,obs,strDate));
 			}
 			
 			stmt.close();

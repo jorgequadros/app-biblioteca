@@ -150,7 +150,8 @@ public class ViewConsLivros extends JInternalFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				//seleciona o item Jcombobox e passando para um objeto
-				Categorias c = (Categorias) cboCategorias.getSelectedItem();
+				 
+				
 											
 						if(tfId.getText().length()==0) {
 							JOptionPane.showMessageDialog(null, "Campos ID Vazio!!");
@@ -163,6 +164,9 @@ public class ViewConsLivros extends JInternalFrame {
 									}else if(tfTitulo.getText().length()==0) {
 										JOptionPane.showMessageDialog(null, "Campos Obs Vazio!!");
 										}else {
+											Categorias c = new Categorias();
+											CategoriasDAO cdao= new CategoriasDAO();
+											c.setId(cdao.buscaId(cboCategorias.getSelectedItem().toString()));
 											LivrosHelpers lhelp = new LivrosHelpers();
 											LivrosController lctrl = new LivrosController();
 											lctrl.alterar(tfTitulo.getText(), tfAutor.getText(), c.getId(),taAssunto.getText(), lhelp.convertDataBD(tfDataAquisicao.getText()),tfId.getText());
