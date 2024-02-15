@@ -30,8 +30,14 @@ import controller.EmprestimoController;
 import controller.LivrosController;
 import controller.UsuarioController;
 import helpers.EmprestimoHelpers;
+import model.ConexaoBD;
 import model.Livros;
 import model.Usuario;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 import javax.swing.JRadioButton;
 
 public class ViewEmprestimo extends JInternalFrame {
@@ -339,6 +345,24 @@ public class ViewEmprestimo extends JInternalFrame {
 		rbtnDevolucao.setFont(new Font("Tahoma", Font.BOLD, 14));
 		rbtnDevolucao.setBounds(51, 24, 109, 23);
 		pnDadosEmprestimo.add(rbtnDevolucao);
+		
+		JButton btnImprimir = new JButton("Imprimir");
+		btnImprimir.setBounds(242, 24, 89, 23);
+		btnImprimir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					JasperPrint print = JasperFillManager.fillReport("c:/rel/titulos.jasper", null,ConexaoBD.getConnection());
+					JasperViewer.viewReport(print,false);
+				} catch (JRException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		pnDadosEmprestimo.add(btnImprimir);
 		
 		JPanel pnTabela = new JPanel();
 		pnTabela.setBounds(386, 11, 498, 260);

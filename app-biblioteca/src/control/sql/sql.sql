@@ -1,9 +1,9 @@
-create database nomeDoBancoDados;
+-- create database nomeDoBancoDados;
+-- show databases; mostra as bases de dados
+use biblioteca; -- ativa o banco de dados
+describe usuarios; -- descrição de tabela
 
-show databases;
-
-use biblioteca;
-
+-- criação de tabela
 create table categorias(
 	id int auto_increment not null,
     descricao varchar(50) not null,
@@ -51,8 +51,7 @@ create table emprestimos(
     index(dt_devolucao)
 );
 
-describe usuarios;
-
+-- consulta as tabelas
 select * from usuarios;
 select * from categorias;
 select * from livros;
@@ -61,6 +60,7 @@ select * from categorias where descricao like 'r%';
 select * from livros AS l, categorias AS c where c.id=l.id_categoria;
 select * from livros order by titulo;
 
+-- alteração de tabela
 alter table livros drop id_categoria;
 alter table livros add autor varchar(50);
 
