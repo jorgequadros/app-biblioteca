@@ -23,12 +23,6 @@ public class ViewPrincipal extends JFrame {
 	public JLabel lbNome,lbTipo;
 	
 	public JMenuItem mnItemCategorias, mnuItemUsuarios, mnuItemLivros;
-
-	
-
-	/**
-	 * Create the frame.
-	 */
 	public ViewPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 611);
