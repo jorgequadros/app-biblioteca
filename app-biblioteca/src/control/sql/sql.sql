@@ -61,12 +61,13 @@ select * from livros AS l, categorias AS c where c.id=l.id_categoria;
 select * from livros order by titulo;
 
 -- alteração de tabela
-alter table livros drop id_categoria;
-alter table livros add autor varchar(50);
+alter table livros drop situacao;
+alter table livros add situacao int;
 
 update emprestimos set dt_devolucao='2024-01-14' where id=13;
 update livros set titulo='Treinameno Avan�ado em VBA', autor='Sandra teste01', id_categoria=1, assunto='Programa��o em excel e access
 Conceitos b�sicos e uso do edito VBA.', dtAquisicao=2012-01-01  where id=1;
+update livros set titulo='livro 03 alterado', autor='Miriam Souza', assunto='Teste 03', situacao=3  where id=3;
 
 INSERT INTO livros (titulo,assunto,autor,id_categoria,dtAquisicao) VALUES("Livro teste1","teste2","Jorge Quadros",2,"2012-01-01");
 INSERT INTO livros (titulo,assunto,autor,id_categoria,dtAquisicao) VALUES("Livro teste2","teste2.","Jorge Quadros",3,"2012-01-01");
